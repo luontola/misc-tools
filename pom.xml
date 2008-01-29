@@ -4,14 +4,14 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>net.orfjackal.tools</groupId>
-    <artifactId>template-project</artifactId>
+    <artifactId>misc-tools</artifactId>
     <version>1.0-SNAPSHOT</version>
     <packaging>jar</packaging>
 
-    <name>Template Project</name>
-    <description>Base project structure for a new project</description>
+    <name>Misc Tools</name>
+    <description>Random tools and experiments that would otherwise belong nowhere</description>
     <url>http://www.orfjackal.net</url>
-    <inceptionYear>200x</inceptionYear>
+    <inceptionYear>2008</inceptionYear>
 
     <developers>
         <developer>
@@ -21,8 +21,8 @@
     </developers>
 
     <scm>
-        <connection>scm:svn:svn://tux/orfjackal/tools/template-project/trunk</connection>
-        <developerConnection>scm:svn:svn://tux/orfjackal/tools/template-project/trunk</developerConnection>
+        <connection>scm:svn:svn://tux/orfjackal/tools/misc-tools/trunk</connection>
+        <developerConnection>scm:svn:svn://tux/orfjackal/tools/misc-tools/trunk</developerConnection>
     </scm>
 
     <repositories>
