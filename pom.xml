@@ -11,7 +11,7 @@
     <name>Misc Tools</name>
     <description>Random tools and experiments that would otherwise belong nowhere</description>
     <url>http://www.orfjackal.net</url>
-    <inceptionYear>2008</inceptionYear>
+    <inceptionYear>2005</inceptionYear>
 
     <developers>
         <developer>
@@ -67,6 +67,16 @@
             <artifactId>junit</artifactId>
             <version>4.4</version>
             <scope>test</scope>
+        </dependency>
+
+        <!-- Others -->
+
+        <dependency>
+            <groupId>metadata-extractor</groupId>
+            <artifactId>metadata-extractor</artifactId>
+            <version>2.2.2</version>
+            <scope>system</scope>
+            <systemPath>${basedir}/lib/metadata-extractor.jar</systemPath>
         </dependency>
 
     </dependencies>
