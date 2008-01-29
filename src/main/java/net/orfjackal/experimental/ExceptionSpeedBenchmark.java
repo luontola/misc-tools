@@ -4,6 +4,8 @@
 
 package net.orfjackal.experimental;
 
+import net.orfjackal.tools.BenchmarkRunner;
+
 import java.util.Scanner;
 
 /**
@@ -19,24 +21,57 @@ public class ExceptionSpeedBenchmark {
         public synchronized Throwable fillInStackTrace() {
             return this;
         }
-
     }
 
     public static void main(String[] args) {
         Scanner in = new Scanner(System.in);
         System.out.print("Enter number of repeats: ");
         int repeats = in.nextInt();
+
+        BenchmarkRunner runner = new BenchmarkRunner();
+
+        long normalException = runner.runMeasurement(repeats, new Runnable() {
+            public void run() {
+                measureNormalException();
+            }
+        });
+        long lightException = runner.runMeasurement(repeats, new Runnable() {
+            public void run() {
+                measureLightException();
+            }
+        });
+        long normalExceptionMethod = runner.runMeasurement(repeats, new Runnable() {
+            public void run() {
+                measureNormalExceptionMethod();
+            }
+        });
+        long lightExceptionMethod = runner.runMeasurement(repeats, new Runnable() {
+            public void run() {
+                measureLightExceptionMethod();
+            }
+        });
+        long createNormalException = runner.runMeasurement(repeats, new Runnable() {
+            public void run() {
+                measureCreateNormalException();
+            }
+        });
+        long createLightException = runner.runMeasurement(repeats, new Runnable() {
+            public void run() {
+                measureCreateLightException();
+            }
+        });
+        long mathOperation = runner.runMeasurement(repeats, new Runnable() {
+            public void run() {
+                measureMathOperation();
+            }
+        });
+        long objectCreation = runner.runMeasurement(repeats, new Runnable() {
+            public void run() {
+                measureObjectCreation();
+            }
+        });
+
         System.out.println();
-
-        long normalException = measureNormalException(repeats);
-        long lightException = measureLightException(repeats);
-        long normalExceptionMethod = measureNormalExceptionMethod(repeats);
-        long lightExceptionMethod = measureLightExceptionMethod(repeats);
-        long createNormalException = measureCreateNormalException(repeats);
-        long createLightException = measureCreateLightException(repeats);
-        long mathOperation = measureMathOperation(repeats);
-        long objectCreation = measureObjectCreation(repeats);
-
         System.out.println("1: Throw normal exception: " + normalException + " ms");
         System.out.println("2: Throw light exception: " + lightException + " ms");
         System.out.println("3: Throw normal exception + method call: " + normalExceptionMethod + " ms");
@@ -44,7 +79,7 @@ public class ExceptionSpeedBenchmark {
         System.out.println("5: Call new Exception(): " + createNormalException + " ms");
         System.out.println("6: Call new LightException(): " + createLightException + " ms");
         System.out.println("7: Call Math.sin(): " + mathOperation + " ms (uses a native method)");
-        System.out.println("8: Call new String(): " + objectCreation + " ms");
+        System.out.println("8: Call new Object(): " + objectCreation + " ms");
         System.out.println();
 
         long methodOverhead = lightExceptionMethod - lightException;
@@ -79,102 +114,46 @@ public class ExceptionSpeedBenchmark {
 
     // TESTS
 
-    private static long measureNormalException(int repeats) {
-        long start;
-        long end;
-        start = System.currentTimeMillis();
-        for (int i = 0; i < repeats; i++) {
-            try {
-                throw new Exception();
-            } catch (Exception e) {
-                // NOOP
-            }
+    private static void measureNormalException() {
+        try {
+            throw new Exception();
+        } catch (Exception e) {
+            // NOOP
         }
-        end = System.currentTimeMillis();
-        return end - start;
     }
 
-    private static long measureLightException(int repeats) {
-        long start;
-        long end;
-        start = System.currentTimeMillis();
-        for (int i = 0; i < repeats; i++) {
-            try {
-                throw new LightException();
-            } catch (LightException e) {
-                // NOOP
-            }
+    private static void measureLightException() {
+        try {
+            throw new LightException();
+        } catch (LightException e) {
+            // NOOP
         }
-        end = System.currentTimeMillis();
-        return end - start;
     }
 
-    private static long measureNormalExceptionMethod(int repeats) {
-        long start;
-        long end;
-        start = System.currentTimeMillis();
-        for (int i = 0; i < repeats; i++) {
-            throwException();
-        }
-        end = System.currentTimeMillis();
-        return end - start;
+    private static void measureNormalExceptionMethod() {
+        throwException();
     }
 
-    private static long measureLightExceptionMethod(int repeats) {
-        long start;
-        long end;
-        start = System.currentTimeMillis();
-        for (int i = 0; i < repeats; i++) {
-            throwLightException();
-        }
-        end = System.currentTimeMillis();
-        return end - start;
+    private static void measureLightExceptionMethod() {
+        throwLightException();
     }
 
     @SuppressWarnings({"ThrowableInstanceNeverThrown"})
-    private static long measureCreateNormalException(int repeats) {
-        long start;
-        long end;
-        start = System.currentTimeMillis();
-        for (int i = 0; i < repeats; i++) {
-            new Exception();
-        }
-        end = System.currentTimeMillis();
-        return end - start;
+    private static void measureCreateNormalException() {
+        new Exception();
     }
 
     @SuppressWarnings({"ThrowableInstanceNeverThrown"})
-    private static long measureCreateLightException(int repeats) {
-        long start;
-        long end;
-        start = System.currentTimeMillis();
-        for (int i = 0; i < repeats; i++) {
-            new LightException();
-        }
-        end = System.currentTimeMillis();
-        return end - start;
+    private static void measureCreateLightException() {
+        new LightException();
     }
 
-    private static long measureMathOperation(int repeats) {
-        long start;
-        long end;
-        start = System.currentTimeMillis();
-        for (int i = 0; i < repeats; i++) {
-            Math.sin(i);
-        }
-        end = System.currentTimeMillis();
-        return end - start;
+    private static void measureMathOperation() {
+        Math.sin(123);
     }
 
     @SuppressWarnings({"RedundantStringConstructorCall"})
-    private static long measureObjectCreation(int repeats) {
-        long start;
-        long end;
-        start = System.currentTimeMillis();
-        for (int i = 0; i < repeats; i++) {
-            new Object();
-        }
-        end = System.currentTimeMillis();
-        return end - start;
+    private static void measureObjectCreation() {
+        new Object();
     }
 }
