@@ -6,8 +6,6 @@ package net.orfjackal.experimental;
 
 import net.orfjackal.tools.BenchmarkRunner;
 
-import java.util.Scanner;
-
 /**
  * Benchmarks the speed of throwing exceptions with and without stack trace.
  *
@@ -24,48 +22,44 @@ public class ExceptionSpeedBenchmark {
     }
 
     public static void main(String[] args) {
-        Scanner in = new Scanner(System.in);
-        System.out.print("Enter number of repeats: ");
-        int repeats = in.nextInt();
-
         BenchmarkRunner runner = new BenchmarkRunner();
 
-        long normalException = runner.runMeasurement(repeats, new Runnable() {
+        long normalException = runner.runMeasurement(new Runnable() {
             public void run() {
                 measureNormalException();
             }
         });
-        long lightException = runner.runMeasurement(repeats, new Runnable() {
+        long lightException = runner.runMeasurement(new Runnable() {
             public void run() {
                 measureLightException();
             }
         });
-        long normalExceptionMethod = runner.runMeasurement(repeats, new Runnable() {
+        long normalExceptionMethod = runner.runMeasurement(new Runnable() {
             public void run() {
                 measureNormalExceptionMethod();
             }
         });
-        long lightExceptionMethod = runner.runMeasurement(repeats, new Runnable() {
+        long lightExceptionMethod = runner.runMeasurement(new Runnable() {
             public void run() {
                 measureLightExceptionMethod();
             }
         });
-        long createNormalException = runner.runMeasurement(repeats, new Runnable() {
+        long createNormalException = runner.runMeasurement(new Runnable() {
             public void run() {
                 measureCreateNormalException();
             }
         });
-        long createLightException = runner.runMeasurement(repeats, new Runnable() {
+        long createLightException = runner.runMeasurement(new Runnable() {
             public void run() {
                 measureCreateLightException();
             }
         });
-        long mathOperation = runner.runMeasurement(repeats, new Runnable() {
+        long mathOperation = runner.runMeasurement(new Runnable() {
             public void run() {
                 measureMathOperation();
             }
         });
-        long objectCreation = runner.runMeasurement(repeats, new Runnable() {
+        long objectCreation = runner.runMeasurement(new Runnable() {
             public void run() {
                 measureObjectCreation();
             }
