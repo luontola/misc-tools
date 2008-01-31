@@ -32,14 +32,14 @@ public class Benchmark {
     }
 
     public Result runBenchmark(String description, Runnable benchmark) {
-        int repeats = autoRepeatCount(benchmark);
-        long[] durations = finalMeasurement(benchmark, repeats);
+        int repeats = autoRepeatCount(benchmark, minimumDurationMs);
+        long[] durations = finalMeasurements(benchmark, repeats, measureRounds);
         Result result = new Result(description, repeats, durations);
         results.add(result);
         return result;
     }
 
-    private int autoRepeatCount(Runnable benchmark) {
+    private static int autoRepeatCount(Runnable benchmark, int minimumDurationMs) {
         int repeats = 1;
         long durationMs = 0;
         while (durationMs < minimumDurationMs) {
@@ -55,7 +55,7 @@ public class Benchmark {
         return repeats;
     }
 
-    private long[] finalMeasurement(Runnable benchmark, int repeats) {
+    private static long[] finalMeasurements(Runnable benchmark, int repeats, int measureRounds) {
         long[] durations = new long[measureRounds];
         for (int i = 0; i < durations.length; i++) {
             long start = System.currentTimeMillis();
