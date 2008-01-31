@@ -8,6 +8,7 @@ import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.text.NumberFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 
@@ -17,23 +18,23 @@ import java.util.Locale;
  */
 public class Benchmark {
 
-    private final int warmupRounds;
+    private final int measureRounds;
     private final int minimumDurationMs;
     private final List<Result> results = new ArrayList<Result>();
 
     public Benchmark() {
-        this(3, 500);
+        this(5, 500);
     }
 
-    public Benchmark(int warmupRounds, int minimumDurationMs) {
-        this.warmupRounds = warmupRounds;
+    public Benchmark(int measureRounds, int minimumDurationMs) {
+        this.measureRounds = measureRounds;
         this.minimumDurationMs = minimumDurationMs;
     }
 
     public Result runBenchmark(String description, Runnable benchmark) {
         int repeats = autoRepeatCount(benchmark);
-        long durationMs = finalMeasurement(benchmark, repeats);
-        Result result = new Result(description, repeats, durationMs);
+        long[] durations = finalMeasurement(benchmark, repeats);
+        Result result = new Result(description, repeats, durations);
         results.add(result);
         return result;
     }
@@ -54,15 +55,15 @@ public class Benchmark {
         return repeats;
     }
 
-    private long finalMeasurement(Runnable benchmark, int repeats) {
-        long start = 0;
-        long end = 0;
-        for (int i = 0; i < warmupRounds; i++) {
-            start = System.currentTimeMillis();
+    private long[] finalMeasurement(Runnable benchmark, int repeats) {
+        long[] durations = new long[measureRounds];
+        for (int i = 0; i < durations.length; i++) {
+            long start = System.currentTimeMillis();
             repeat(repeats, benchmark);
-            end = System.currentTimeMillis();
+            long end = System.currentTimeMillis();
+            durations[i] = end - start;
         }
-        return end - start;
+        return durations;
     }
 
     private static void repeat(int repeats, Runnable benchmark) {
@@ -73,17 +74,23 @@ public class Benchmark {
 
     public void printResults() {
         DecimalFormat nf = getNumberFormat();
+        int indexMaxLength = (results.size() + 1) / 10 + 1;
         int descMaxLength = 0;
         int nanosMaxLength = 0;
         for (Result result : results) {
             descMaxLength = Math.max(descMaxLength, result.getDescription().length());
-            nanosMaxLength = Math.max(nanosMaxLength, nf.format(result.getNanos()).length());
+            nanosMaxLength = Math.max(nanosMaxLength, nf.format(result.getMaxNanos()).length());
         }
         System.out.println("Benchmark Results");
         for (int i = 0; i < results.size(); i++) {
             Result result = results.get(i);
-            System.out.println((i + 1) + ": " + pad(result.getDescription(), descMaxLength, " ")
-                    + "    " + pad(nf.format(result.getNanos()), -nanosMaxLength, " ") + " ns");
+            String index = pad(i + 1, -indexMaxLength, " ");
+            String desc = pad(result.getDescription(), descMaxLength, " ");
+            String nanos = pad(nf.format(result.getNanos()), -nanosMaxLength, " ");
+            String minNanos = pad(nf.format(result.getMinNanos()), -nanosMaxLength, " ");
+            String maxNanos = pad(nf.format(result.getMaxNanos()), -nanosMaxLength, " ");
+            System.out.println(index + ": " + desc + "    " + nanos + " ns"
+                    + "    (min " + minNanos + " ns, max " + maxNanos + " ns)");
         }
     }
 
@@ -105,18 +112,17 @@ public class Benchmark {
 
     public static class Result {
 
-        private static final double MILLIS_TO_NANOS = 1000 * 1000;
+        private static final int MILLIS_TO_NANOS = 1000 * 1000;
 
         private final String description;
-
         private final int repeats;
+        private final long[] totalDurationsMs;
 
-        private final long totalDurationMs;
-
-        public Result(String description, int repeats, long totalDurationMs) {
+        public Result(String description, int repeats, long[] totalDurationsMs) {
             this.description = description;
             this.repeats = repeats;
-            this.totalDurationMs = totalDurationMs;
+            this.totalDurationsMs = Arrays.copyOf(totalDurationsMs, totalDurationsMs.length);
+            Arrays.sort(this.totalDurationsMs);
         }
 
         public String getDescription() {
@@ -128,11 +134,35 @@ public class Benchmark {
         }
 
         public long getTotalMillis() {
-            return totalDurationMs;
+            return median(totalDurationsMs);
         }
 
         public double getNanos() {
-            return totalDurationMs * (MILLIS_TO_NANOS / repeats);
+            return actualNanos(median(totalDurationsMs));
+        }
+
+        public double getMinNanos() {
+            return actualNanos(min(totalDurationsMs));
+        }
+
+        public double getMaxNanos() {
+            return actualNanos(max(totalDurationsMs));
+        }
+
+        private double actualNanos(long millis) {
+            return millis * ((double) MILLIS_TO_NANOS / (double) repeats);
+        }
+
+        private static long median(long[] longs) {
+            return longs[longs.length / 2];
+        }
+
+        private static long min(long[] longs) {
+            return longs[0];
+        }
+
+        private static long max(long[] longs) {
+            return longs[longs.length - 1];
         }
 
         public String toString() {
@@ -140,6 +170,5 @@ public class Benchmark {
             return "Benchmark.Result[" + getDescription() + ": " + nf.format(getNanos()) + " ns ("
                     + getRepeats() + " repeats, " + getTotalMillis() + " ms)]";
         }
-
     }
 }

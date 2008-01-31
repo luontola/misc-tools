@@ -67,6 +67,7 @@ public class ExceptionSpeedBenchmark {
 
         benchmark.printResults();
 
+        System.out.println();
         double methodOverhead = lightExceptionMethod.getNanos() - lightException.getNanos();
         double exceptionMethodOverhead = normalExceptionMethod.getNanos() - normalException.getNanos() - methodOverhead;
         double lightExceptionSpeedup1 = normalException.getNanos() / lightException.getNanos();
