@@ -26,42 +26,52 @@ public class ExceptionSpeedBenchmark {
 
         Benchmark.Result normalException = benchmark.runBenchmark("Throw normal exception", new Runnable() {
             public void run() {
-                measureNormalException();
+                try {
+                    throw new Exception();
+                } catch (Exception e) {
+                    // NOOP
+                }
             }
         });
         Benchmark.Result lightException = benchmark.runBenchmark("Throw light exception", new Runnable() {
             public void run() {
-                measureLightException();
+                try {
+                    throw new LightException();
+                } catch (LightException e) {
+                    // NOOP
+                }
             }
         });
         Benchmark.Result normalExceptionMethod = benchmark.runBenchmark("Throw normal exception + method call", new Runnable() {
             public void run() {
-                measureNormalExceptionMethod();
+                throwException();
             }
         });
         Benchmark.Result lightExceptionMethod = benchmark.runBenchmark("Throw light exception + method call", new Runnable() {
             public void run() {
-                measureLightExceptionMethod();
+                throwLightException();
             }
         });
         Benchmark.Result createNormalException = benchmark.runBenchmark("Call new Exception()", new Runnable() {
+            @SuppressWarnings({"ThrowableInstanceNeverThrown"})
             public void run() {
-                measureCreateNormalException();
+                new Exception();
             }
         });
         Benchmark.Result createLightException = benchmark.runBenchmark("Call new LightException()", new Runnable() {
+            @SuppressWarnings({"ThrowableInstanceNeverThrown"})
             public void run() {
-                measureCreateLightException();
+                new LightException();
             }
         });
         Benchmark.Result mathOperation = benchmark.runBenchmark("Call Math.sin() (native method)", new Runnable() {
             public void run() {
-                measureMathOperation();
+                Math.sin(123);
             }
         });
         Benchmark.Result objectCreation = benchmark.runBenchmark("Call new Object()", new Runnable() {
             public void run() {
-                measureObjectCreation();
+                new Object();
             }
         });
 
@@ -96,50 +106,5 @@ public class ExceptionSpeedBenchmark {
         } catch (Exception e) {
             // NOOP
         }
-    }
-
-    // TESTS
-
-    private static void measureNormalException() {
-        try {
-            throw new Exception();
-        } catch (Exception e) {
-            // NOOP
-        }
-    }
-
-    private static void measureLightException() {
-        try {
-            throw new LightException();
-        } catch (LightException e) {
-            // NOOP
-        }
-    }
-
-    private static void measureNormalExceptionMethod() {
-        throwException();
-    }
-
-    private static void measureLightExceptionMethod() {
-        throwLightException();
-    }
-
-    @SuppressWarnings({"ThrowableInstanceNeverThrown"})
-    private static void measureCreateNormalException() {
-        new Exception();
-    }
-
-    @SuppressWarnings({"ThrowableInstanceNeverThrown"})
-    private static void measureCreateLightException() {
-        new LightException();
-    }
-
-    private static void measureMathOperation() {
-        Math.sin(123);
-    }
-
-    @SuppressWarnings({"RedundantStringConstructorCall"})
-    private static void measureObjectCreation() {
-        new Object();
     }
 }
