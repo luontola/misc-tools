@@ -7,6 +7,8 @@ package net.orfjackal.tools;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.text.NumberFormat;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 
 /**
@@ -17,6 +19,7 @@ public class Benchmark {
 
     private final int warmupRounds;
     private final int minimumDurationMs;
+    private final List<Result> results = new ArrayList<Result>();
 
     public Benchmark() {
         this(3, 500);
@@ -27,10 +30,12 @@ public class Benchmark {
         this.minimumDurationMs = minimumDurationMs;
     }
 
-    public Results runMeasurement(Runnable benchmark) {
+    public Result runBenchmark(String description, Runnable benchmark) {
         int repeats = autoRepeatCount(benchmark);
         long durationMs = finalMeasurement(benchmark, repeats);
-        return new Results(repeats, durationMs);
+        Result result = new Result(description, repeats, durationMs);
+        results.add(result);
+        return result;
     }
 
     private int autoRepeatCount(Runnable benchmark) {
@@ -66,16 +71,56 @@ public class Benchmark {
         }
     }
 
-    public static class Results {
+    public void printResults() {
+        DecimalFormat nf = getNumberFormat();
+        int descMaxLength = 0;
+        int nanosMaxLength = 0;
+        for (Result result : results) {
+            descMaxLength = Math.max(descMaxLength, result.getDescription().length());
+            nanosMaxLength = Math.max(nanosMaxLength, nf.format(result.getNanos()).length());
+        }
+        System.out.println("Benchmark Results");
+        for (int i = 0; i < results.size(); i++) {
+            Result result = results.get(i);
+            System.out.println((i + 1) + ": " + pad(result.getDescription(), descMaxLength, " ")
+                    + "    " + pad(nf.format(result.getNanos()), -nanosMaxLength, " ") + " ns");
+        }
+    }
+
+    private static DecimalFormat getNumberFormat() {
+        return new DecimalFormat("0.00", DecimalFormatSymbols.getInstance(Locale.ENGLISH));
+    }
+
+    private static String pad(Object str, int padlen, String pad) {
+        String padding = "";
+        int len = Math.abs(padlen) - str.toString().length();
+        if (len < 1) {
+            return str.toString();
+        }
+        for (int i = 0; i < len; ++i) {
+            padding = padding + pad;
+        }
+        return (padlen < 0 ? padding + str : str + padding);
+    }
+
+    public static class Result {
 
         private static final double MILLIS_TO_NANOS = 1000 * 1000;
 
+        private final String description;
+
         private final int repeats;
+
         private final long totalDurationMs;
 
-        public Results(int repeats, long totalDurationMs) {
+        public Result(String description, int repeats, long totalDurationMs) {
+            this.description = description;
             this.repeats = repeats;
             this.totalDurationMs = totalDurationMs;
+        }
+
+        public String getDescription() {
+            return description;
         }
 
         public int getRepeats() {
@@ -91,9 +136,10 @@ public class Benchmark {
         }
 
         public String toString() {
-            NumberFormat nf = new DecimalFormat("0.00", DecimalFormatSymbols.getInstance(Locale.ENGLISH));
-            return nf.format(getNanos()) + " ns ("
-                    + getRepeats() + " repeats, " + getTotalMillis() + " ms)";
+            NumberFormat nf = getNumberFormat();
+            return "Benchmark.Result[" + getDescription() + ": " + nf.format(getNanos()) + " ns ("
+                    + getRepeats() + " repeats, " + getTotalMillis() + " ms)]";
         }
+
     }
 }

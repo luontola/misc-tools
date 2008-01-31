@@ -22,59 +22,50 @@ public class ExceptionSpeedBenchmark {
     }
 
     public static void main(String[] args) {
-        Benchmark runner = new Benchmark();
+        Benchmark benchmark = new Benchmark();
 
-        Benchmark.Results normalException = runner.runMeasurement(new Runnable() {
+        Benchmark.Result normalException = benchmark.runBenchmark("Throw normal exception", new Runnable() {
             public void run() {
                 measureNormalException();
             }
         });
-        Benchmark.Results lightException = runner.runMeasurement(new Runnable() {
+        Benchmark.Result lightException = benchmark.runBenchmark("Throw light exception", new Runnable() {
             public void run() {
                 measureLightException();
             }
         });
-        Benchmark.Results normalExceptionMethod = runner.runMeasurement(new Runnable() {
+        Benchmark.Result normalExceptionMethod = benchmark.runBenchmark("Throw normal exception + method call", new Runnable() {
             public void run() {
                 measureNormalExceptionMethod();
             }
         });
-        Benchmark.Results lightExceptionMethod = runner.runMeasurement(new Runnable() {
+        Benchmark.Result lightExceptionMethod = benchmark.runBenchmark("Throw light exception + method call", new Runnable() {
             public void run() {
                 measureLightExceptionMethod();
             }
         });
-        Benchmark.Results createNormalException = runner.runMeasurement(new Runnable() {
+        Benchmark.Result createNormalException = benchmark.runBenchmark("Call new Exception()", new Runnable() {
             public void run() {
                 measureCreateNormalException();
             }
         });
-        Benchmark.Results createLightException = runner.runMeasurement(new Runnable() {
+        Benchmark.Result createLightException = benchmark.runBenchmark("Call new LightException()", new Runnable() {
             public void run() {
                 measureCreateLightException();
             }
         });
-        Benchmark.Results mathOperation = runner.runMeasurement(new Runnable() {
+        Benchmark.Result mathOperation = benchmark.runBenchmark("Call Math.sin() (native method)", new Runnable() {
             public void run() {
                 measureMathOperation();
             }
         });
-        Benchmark.Results objectCreation = runner.runMeasurement(new Runnable() {
+        Benchmark.Result objectCreation = benchmark.runBenchmark("Call new Object()", new Runnable() {
             public void run() {
                 measureObjectCreation();
             }
         });
 
-        System.out.println();
-        System.out.println("1: Throw normal exception: " + normalException.getNanos() + " ns");
-        System.out.println("2: Throw light exception: " + lightException.getNanos() + " ns");
-        System.out.println("3: Throw normal exception + method call: " + normalExceptionMethod.getNanos() + " ns");
-        System.out.println("4: Throw light exception + method call: " + lightExceptionMethod.getNanos() + " ns");
-        System.out.println("5: Call new Exception(): " + createNormalException.getNanos() + " ns");
-        System.out.println("6: Call new LightException(): " + createLightException.getNanos() + " ns");
-        System.out.println("7: Call Math.sin(): " + mathOperation.getNanos() + " ns (uses a native method)");
-        System.out.println("8: Call new Object(): " + objectCreation.getNanos() + " ns");
-        System.out.println();
+        benchmark.printResults();
 
         double methodOverhead = lightExceptionMethod.getNanos() - lightException.getNanos();
         double exceptionMethodOverhead = normalExceptionMethod.getNanos() - normalException.getNanos() - methodOverhead;
