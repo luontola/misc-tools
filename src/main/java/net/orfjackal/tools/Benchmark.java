@@ -13,25 +13,24 @@ import java.util.Locale;
  * @author Esko Luontola
  * @since 30.1.2008
  */
-public class BenchmarkRunner {
+public class Benchmark {
 
     private final int warmupRounds;
     private final int minimumDurationMs;
 
-    public BenchmarkRunner() {
+    public Benchmark() {
         this(3, 500);
     }
 
-    public BenchmarkRunner(int warmupRounds, int minimumDurationMs) {
+    public Benchmark(int warmupRounds, int minimumDurationMs) {
         this.warmupRounds = warmupRounds;
         this.minimumDurationMs = minimumDurationMs;
     }
 
-    public long runMeasurement(Runnable benchmark) {
+    public Results runMeasurement(Runnable benchmark) {
         int repeats = autoRepeatCount(benchmark);
         long durationMs = finalMeasurement(benchmark, repeats);
-        System.out.println(new Results(repeats, durationMs)); // TODO: return Result
-        return durationMs;
+        return new Results(repeats, durationMs);
     }
 
     private int autoRepeatCount(Runnable benchmark) {
@@ -83,18 +82,18 @@ public class BenchmarkRunner {
             return repeats;
         }
 
-        public long getTotalDurationMillis() {
+        public long getTotalMillis() {
             return totalDurationMs;
         }
 
-        public double getOperationDurationNanos() {
+        public double getNanos() {
             return totalDurationMs * (MILLIS_TO_NANOS / repeats);
         }
 
         public String toString() {
             NumberFormat nf = new DecimalFormat("0.00", DecimalFormatSymbols.getInstance(Locale.ENGLISH));
-            return nf.format(getOperationDurationNanos()) + " ns ("
-                    + getRepeats() + " repeats, " + getTotalDurationMillis() + " ms)";
+            return nf.format(getNanos()) + " ns ("
+                    + getRepeats() + " repeats, " + getTotalMillis() + " ms)";
         }
     }
 }
