@@ -61,8 +61,17 @@ public class GameLoopExample {
         }
 
         private void updateGUI(BufferStrategy strategy) {
-            Graphics g = strategy.getDrawGraphics();
+            do {
+                do {
+                    Graphics g = strategy.getDrawGraphics();
+                    paint(g);
+                    g.dispose();
+                } while (strategy.contentsRestored());
+                strategy.show();
+            } while (strategy.contentsLost());
+        }
 
+        private void paint(Graphics g) {
             g.setColor(Color.WHITE);
             g.fillRect(0, 0, gui.getWidth(), gui.getHeight());
             g.setColor(Color.BLACK);
@@ -72,9 +81,6 @@ public class GameLoopExample {
             int y = lineX / gui.getWidth() + 50;
             int tilt = (int) (Math.sin(lineX * 0.10) * 50);
             g.drawLine(x, y, x + 25, y + tilt);
-
-            g.dispose();
-            strategy.show();
         }
 
         private void synchFramerate() {
