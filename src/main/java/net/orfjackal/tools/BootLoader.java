@@ -17,16 +17,20 @@ public class BootLoader {
     public static final String MAIN_CLASS = "com.foo.Main";
 
     public static void main(String[] args) throws Exception {
-        URL[] libs = toUrls(libraryFiles());
+        URL[] libs = urlsFrom(listJarsIn(libraryDir()));
         ClassLoader classLoader = new URLClassLoader(libs, Thread.currentThread().getContextClassLoader());
         start(MAIN_CLASS, args, classLoader);
     }
 
-    private static File[] libraryFiles() {
+    private static File libraryDir() {
         File dir = new File(LIBRARY_DIR);
         if (!dir.isDirectory()) {
             throw new IllegalStateException("No such directory: " + dir);
         }
+        return dir;
+    }
+
+    private static File[] listJarsIn(File dir) {
         return dir.listFiles(new FileFilter() {
             public boolean accept(File file) {
                 return file.getName().toLowerCase().endsWith(".jar");
@@ -34,7 +38,7 @@ public class BootLoader {
         });
     }
 
-    private static URL[] toUrls(File[] files) throws MalformedURLException {
+    private static URL[] urlsFrom(File[] files) throws MalformedURLException {
         URL[] urls = new URL[files.length];
         for (int i = 0; i < files.length; i++) {
             urls[i] = new URL("file", null, files[i].getAbsolutePath());
