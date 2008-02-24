@@ -15,6 +15,8 @@ import java.util.Properties;
  */
 public class BootLoader {
 
+    // see also http://www.jroller.com/ssourcery/entry/get_rid_of_the_classpath
+
     public static final String PROPERTIES_PATH = "/bootloader.properties";
     public static final String LIBRARY_DIR_KEY = "libraryDir";
     public static final String MAIN_CLASS_KEY = "mainClass";
