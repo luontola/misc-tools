@@ -18,6 +18,11 @@ import java.util.Locale;
  */
 public class Benchmark {
 
+    private static final Runnable NULL_BENCHMARK = new Runnable() {
+        public void run() {
+        }
+    };
+
     private final int measureRounds;
     private final int minimumDurationMs;
     private final List<Result> results = new ArrayList<Result>();
@@ -34,7 +39,8 @@ public class Benchmark {
     public Result runBenchmark(String description, Runnable benchmark) {
         int repeats = autoRepeatCount(benchmark, minimumDurationMs);
         long[] durations = finalMeasurements(benchmark, repeats, measureRounds);
-        Result result = new Result(description, repeats, durations);
+        long[] measurementNoise = finalMeasurements(NULL_BENCHMARK, repeats, measureRounds);
+        Result result = new Result(description, repeats, durations, measurementNoise);
         results.add(result);
         return result;
     }
@@ -118,11 +124,25 @@ public class Benchmark {
         private final int repeats;
         private final long[] totalDurationsMs;
 
-        public Result(String description, int repeats, long[] totalDurationsMs) {
+        public Result(String description, int repeats, long[] totalDurationsMs, long[] measurementNoiseMs) {
+            totalDurationsMs = sortedCopy(totalDurationsMs);
+            measurementNoiseMs = sortedCopy(measurementNoiseMs);
+            subtractNoise(totalDurationsMs, min(measurementNoiseMs));
             this.description = description;
             this.repeats = repeats;
-            this.totalDurationsMs = Arrays.copyOf(totalDurationsMs, totalDurationsMs.length);
-            Arrays.sort(this.totalDurationsMs);
+            this.totalDurationsMs = totalDurationsMs;
+        }
+
+        private static long[] sortedCopy(long[] values) {
+            values = values.clone();
+            Arrays.sort(values);
+            return values;
+        }
+
+        private static void subtractNoise(long[] totalMs, long noiseMs) {
+            for (int i = 0; i < totalMs.length; i++) {
+                totalMs[i] -= noiseMs;
+            }
         }
 
         public String getDescription() {
