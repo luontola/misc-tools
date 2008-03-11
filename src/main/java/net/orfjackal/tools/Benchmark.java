@@ -87,7 +87,7 @@ public class Benchmark {
             descMaxLength = Math.max(descMaxLength, result.getDescription().length());
             nanosMaxLength = Math.max(nanosMaxLength, nf.format(result.getMaxNanos()).length());
         }
-        System.out.println("Benchmark Results");
+        System.out.println("Benchmark results (" + measureRounds + " measurement rounds)");
         for (int i = 0; i < results.size(); i++) {
             Result result = results.get(i);
             String index = pad(i + 1, -indexMaxLength, " ");
