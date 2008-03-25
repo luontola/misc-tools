@@ -92,11 +92,18 @@ public class Benchmark {
             Result result = results.get(i);
             String index = pad(i + 1, -indexMaxLength, " ");
             String desc = pad(result.getDescription(), descMaxLength, " ");
-            String nanos = pad(nf.format(result.getNanos()), -nanosMaxLength, " ");
+            String nanos = pad(nf.format(result.getMedianNanos()), -nanosMaxLength, " ");
             String minNanos = pad(nf.format(result.getMinNanos()), -nanosMaxLength, " ");
             String maxNanos = pad(nf.format(result.getMaxNanos()), -nanosMaxLength, " ");
             System.out.println(index + ": " + desc + "    " + nanos + " ns"
                     + "    (min " + minNanos + " ns, max " + maxNanos + " ns)");
+        }
+    }
+
+    public void printRawData() {
+        System.out.println("Raw benchmark data");
+        for (int i = 0; i < results.size(); i++) {
+            System.out.println((i + 1) + ": " + results.get(i));
         }
     }
 
@@ -123,11 +130,13 @@ public class Benchmark {
         private final String description;
         private final int repeats;
         private final long[] totalDurationsMs;
+        private final long measurementNoiseMs;
 
         public Result(String description, int repeats, long[] totalDurationsMs, long[] measurementNoiseMs) {
             totalDurationsMs = sortedCopy(totalDurationsMs);
             measurementNoiseMs = sortedCopy(measurementNoiseMs);
-            subtractNoise(totalDurationsMs, min(measurementNoiseMs));
+            this.measurementNoiseMs = min(measurementNoiseMs);
+            subtractNoise(totalDurationsMs, this.measurementNoiseMs);
             this.description = description;
             this.repeats = repeats;
             this.totalDurationsMs = totalDurationsMs;
@@ -153,23 +162,19 @@ public class Benchmark {
             return repeats;
         }
 
-        public long getTotalMillis() {
-            return median(totalDurationsMs);
-        }
-
-        public double getNanos() {
-            return actualNanos(median(totalDurationsMs));
+        public double getMedianNanos() {
+            return toActualNanos(median(totalDurationsMs));
         }
 
         public double getMinNanos() {
-            return actualNanos(min(totalDurationsMs));
+            return toActualNanos(min(totalDurationsMs));
         }
 
         public double getMaxNanos() {
-            return actualNanos(max(totalDurationsMs));
+            return toActualNanos(max(totalDurationsMs));
         }
 
-        private double actualNanos(long millis) {
+        private double toActualNanos(long millis) {
             return millis * ((double) MILLIS_TO_NANOS / (double) repeats);
         }
 
@@ -187,8 +192,20 @@ public class Benchmark {
 
         public String toString() {
             NumberFormat nf = getNumberFormat();
-            return "Benchmark.Result[" + getDescription() + ": " + nf.format(getNanos()) + " ns ("
-                    + getRepeats() + " repeats, " + getTotalMillis() + " ms)]";
+            return "Benchmark.Result[" + getDescription() + ": " + nf.format(getMedianNanos()) + " ns ("
+                    + getRepeats() + " repeats, measurements: " + listMs(totalDurationsMs)
+                    + "; subtracted " + measurementNoiseMs + " ms measurement noise)]";
+        }
+
+        private static String listMs(long[] milliseconds) {
+            String result = "";
+            for (long ms : milliseconds) {
+                if (result.length() > 0) {
+                    result += ", ";
+                }
+                result += ms + " ms";
+            }
+            return result;
         }
     }
 }
