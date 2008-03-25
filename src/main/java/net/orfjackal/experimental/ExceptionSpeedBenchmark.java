@@ -78,12 +78,12 @@ public class ExceptionSpeedBenchmark {
         benchmark.printResults();
 
         System.out.println();
-        double methodOverhead = lightExceptionMethod.getNanos() - lightException.getNanos();
-        double exceptionMethodOverhead = normalExceptionMethod.getNanos() - normalException.getNanos() - methodOverhead;
-        double lightExceptionSpeedup1 = normalException.getNanos() / lightException.getNanos();
-        double lightExceptionSpeedup2 = normalExceptionMethod.getNanos() / lightExceptionMethod.getNanos();
-        double throwNormalException = normalException.getNanos() - createNormalException.getNanos();
-        double throwLightException = lightException.getNanos() - createLightException.getNanos();
+        double methodOverhead = lightExceptionMethod.getMedianNanos() - lightException.getMedianNanos();
+        double exceptionMethodOverhead = normalExceptionMethod.getMedianNanos() - normalException.getMedianNanos() - methodOverhead;
+        double lightExceptionSpeedup1 = normalException.getMedianNanos() / lightException.getMedianNanos();
+        double lightExceptionSpeedup2 = normalExceptionMethod.getMedianNanos() / lightExceptionMethod.getMedianNanos();
+        double throwNormalException = normalException.getMedianNanos() - createNormalException.getMedianNanos();
+        double throwLightException = lightException.getMedianNanos() - createLightException.getMedianNanos();
         System.out.println("Method call overhead: " + methodOverhead + " ns");
         System.out.println("Stack trace overhead for a method call: " + exceptionMethodOverhead + " ns");
         System.out.println("Light exceptions compared to normal exceptions: "
