@@ -19,6 +19,9 @@ public class SystemOutRecorder {
     private PrintStream expected;
 
     public void install() {
+        if (realSystemOut != null) {
+            throw new IllegalStateException("Already installed");
+        }
         realSystemOut = System.out;
         actualBytes = new ByteArrayOutputStream();
         System.setOut(new PrintStream(actualBytes));
@@ -27,6 +30,9 @@ public class SystemOutRecorder {
     }
 
     public void uninstall() {
+        if (realSystemOut == null) {
+            throw new IllegalStateException("Already uninstalled");
+        }
         System.setOut(realSystemOut);
         realSystemOut = null;
         actualBytes = null;
