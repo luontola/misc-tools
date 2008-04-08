@@ -44,13 +44,20 @@ public class DiagramOfNinePlaces {
         }
 
         public Diagram with(int x, int y, int value) {
-            int[] copy = Arrays.copyOf(diagram, diagram.length);
-            int targetIndex = index(x, y);
-            if (copy[targetIndex] != 0 || contains(value, copy)) {
+            return with(index(x, y), value);
+        }
+
+        public Diagram with(int index, int value) {
+            if (diagram[index] != 0 || contains(value, diagram)) {
                 return null;
             }
-            copy[targetIndex] = value;
+            int[] copy = Arrays.copyOf(diagram, diagram.length);
+            copy[index] = value;
             return new Diagram(copy);
+        }
+
+        public int length() {
+            return diagram.length;
         }
 
         public boolean full() {
@@ -177,6 +184,13 @@ public class DiagramOfNinePlaces {
 
         public void testUsingAValueTwiseIsNotAllowed() {
             assertNull(diagram.with(1, 1, 1));
+        }
+
+        public void testAlsoAnIndexMethodMayBeUsed() {
+            assertEquals(original.with(0, 2).toString(), "" +
+                    "200\n" +
+                    "000\n" +
+                    "000\n");
         }
     }
 
