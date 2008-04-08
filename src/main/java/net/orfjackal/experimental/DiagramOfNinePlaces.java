@@ -20,6 +20,11 @@ import java.util.List;
  *  |_|_|_|
  * </pre>
  * - Legend of the Condor Heroes (1982), episode 44
+ * <p/>
+ * Also see
+ * http://www.magicl-existence.com/
+ * http://www.fengshuigate.com/numerology.html
+ * http://catenary.wordpress.com/2006/08/19/fun-with-representations-i-nine-numbers/
  *
  * @author Esko Luontola
  * @since 8.4.2008
