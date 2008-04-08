@@ -26,6 +26,7 @@ import java.util.List;
 public class DiagramOfNinePlaces {
 
     private static List<Diagram> solutions = new ArrayList<Diagram>();
+    private static int tries = 0;
 
     public static void main(String[] args) {
         Diagram diagram = new Diagram();
@@ -33,11 +34,13 @@ public class DiagramOfNinePlaces {
         for (Diagram solution : solutions) {
             System.out.println(solution);
         }
+        System.out.println("Total tries: " + tries);
     }
 
     private static void search(Diagram diagram, int nextIndex) {
         if (nextIndex < diagram.length()) {
             for (int value = 1; value <= 9; value++) {
+                tries++;
                 Diagram assigned = diagram.with(nextIndex, value);
                 if (assigned != null) {
                     search(assigned, nextIndex + 1);
