@@ -45,16 +45,16 @@ public class DiagramOfNinePlaces {
 
         public Diagram with(int x, int y, int value) {
             int[] copy = Arrays.copyOf(diagram, diagram.length);
-            copy[index(x, y)] = value;
+            int targetIndex = index(x, y);
+            if (copy[targetIndex] != 0 || contains(value, copy)) {
+                return null;
+            }
+            copy[targetIndex] = value;
             return new Diagram(copy);
         }
 
-        private static int index(int x, int y) {
-            return x + y * COLS;
-        }
-
-        public boolean complete() {
-            return false;
+        public boolean full() {
+            return !contains(0, diagram);
         }
 
         public boolean fail() {
@@ -108,6 +108,19 @@ public class DiagramOfNinePlaces {
             }
             return s;
         }
+
+        private static int index(int x, int y) {
+            return x + y * COLS;
+        }
+
+        private static boolean contains(int needle, int[] haystack) {
+            for (int value : haystack) {
+                if (value == needle) {
+                    return true;
+                }
+            }
+            return false;
+        }
     }
 
     public static class TestEmptyDiagram extends TestCase {
@@ -118,8 +131,8 @@ public class DiagramOfNinePlaces {
             diagram = new Diagram();
         }
 
-        public void testIsNotComplete() {
-            assertFalse(diagram.complete());
+        public void testIsNotFull() {
+            assertFalse(diagram.full());
         }
 
         public void testDoesNotFail() {
@@ -156,6 +169,14 @@ public class DiagramOfNinePlaces {
                     "000\n" +
                     "000\n" +
                     "000\n");
+        }
+
+        public void testOverwritingAValueIsNotAllowed() {
+            assertNull(diagram.with(0, 0, 2));
+        }
+
+        public void testUsingAValueTwiseIsNotAllowed() {
+            assertNull(diagram.with(1, 1, 1));
         }
     }
 
@@ -237,6 +258,32 @@ public class DiagramOfNinePlaces {
         public void testFails() {
             assertTrue(diagram1.fail());
             assertTrue(diagram2.fail());
+        }
+    }
+
+    public static class TestAlmostFullDiagram extends TestCase {
+
+        private Diagram diagram;
+
+        protected void setUp() throws Exception {
+            diagram = new Diagram()
+                    .with(0, 0, 1)
+                    .with(0, 1, 2)
+                    .with(0, 2, 3)
+                    .with(1, 0, 4)
+                    .with(1, 1, 5)
+                    .with(1, 2, 6)
+                    .with(2, 0, 7)
+                    .with(2, 1, 8);
+        }
+
+        public void testIsNotFull() {
+            assertFalse(diagram.full());
+        }
+
+        public void testIsFullAfterSettingTheLastValue() {
+            Diagram fullDiagram = diagram.with(2, 2, 9);
+            assertTrue(fullDiagram.full());
         }
     }
 }
