@@ -6,7 +6,9 @@ package net.orfjackal.experimental;
 
 import junit.framework.TestCase;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 /**
  * Diagram of Nine Places - Put the numbers 1 to 9 into the squares so it adds to 15
@@ -23,8 +25,27 @@ import java.util.Arrays;
  */
 public class DiagramOfNinePlaces {
 
-    public static void main(String[] args) {
+    private static List<Diagram> solutions = new ArrayList<Diagram>();
 
+    public static void main(String[] args) {
+        Diagram diagram = new Diagram();
+        search(diagram, 0);
+        for (Diagram solution : solutions) {
+            System.out.println(solution);
+        }
+    }
+
+    private static void search(Diagram diagram, int nextIndex) {
+        if (nextIndex < diagram.length()) {
+            for (int value = 1; value <= 9; value++) {
+                Diagram assigned = diagram.with(nextIndex, value);
+                if (assigned != null) {
+                    search(assigned, nextIndex + 1);
+                }
+            }
+        } else if (diagram.full() && !diagram.fail()) {
+            solutions.add(diagram);
+        }
     }
 
     private static class Diagram {
