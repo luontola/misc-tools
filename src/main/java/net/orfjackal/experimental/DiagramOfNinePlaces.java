@@ -63,10 +63,7 @@ public class DiagramOfNinePlaces {
 
         private boolean failsHorizontally() {
             for (int y = 0; y < ROWS; y++) {
-                int v1 = diagram[index(0, y)];
-                int v2 = diagram[index(1, y)];
-                int v3 = diagram[index(2, y)];
-                if (allSet(v1, v2, v3) && !satisfiesGoal(v1, v2, v3)) {
+                if (fails(0, y, 1, y, 2, y)) {
                     return true;
                 }
             }
@@ -75,14 +72,18 @@ public class DiagramOfNinePlaces {
 
         private boolean failsVertically() {
             for (int x = 0; x < COLS; x++) {
-                int v1 = diagram[index(x, 0)];
-                int v2 = diagram[index(x, 1)];
-                int v3 = diagram[index(x, 2)];
-                if (allSet(v1, v2, v3) && !satisfiesGoal(v1, v2, v3)) {
+                if (fails(x, 0, x, 1, x, 2)) {
                     return true;
                 }
             }
             return false;
+        }
+
+        private boolean fails(int x1, int y1, int x2, int y2, int x3, int y3) {
+            int v1 = diagram[index(x1, y1)];
+            int v2 = diagram[index(x2, y2)];
+            int v3 = diagram[index(x3, y3)];
+            return allSet(v1, v2, v3) && !satisfiesGoal(v1, v2, v3);
         }
 
         private static boolean allSet(int v1, int v2, int v3) {
