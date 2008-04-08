@@ -63,7 +63,7 @@ public class DiagramOfNinePlaces {
 
         private boolean failsHorizontally() {
             for (int y = 0; y < ROWS; y++) {
-                if (fails(0, y, 1, y, 2, y)) {
+                if (failsAtIndexes(0, y, 1, y, 2, y)) {
                     return true;
                 }
             }
@@ -72,14 +72,14 @@ public class DiagramOfNinePlaces {
 
         private boolean failsVertically() {
             for (int x = 0; x < COLS; x++) {
-                if (fails(x, 0, x, 1, x, 2)) {
+                if (failsAtIndexes(x, 0, x, 1, x, 2)) {
                     return true;
                 }
             }
             return false;
         }
 
-        private boolean fails(int x1, int y1, int x2, int y2, int x3, int y3) {
+        private boolean failsAtIndexes(int x1, int y1, int x2, int y2, int x3, int y3) {
             int v1 = diagram[index(x1, y1)];
             int v2 = diagram[index(x2, y2)];
             int v3 = diagram[index(x3, y3)];
