@@ -58,12 +58,12 @@ public class DiagramOfNinePlaces {
         }
 
         public boolean fail() {
-            return failsHorizontally() || failsVertically();
+            return failsHorizontally() || failsVertically() || failsDiagonally();
         }
 
         private boolean failsHorizontally() {
             for (int y = 0; y < ROWS; y++) {
-                if (failsAtIndexes(0, y, 1, y, 2, y)) {
+                if (failsAtPlaces(0, y, 1, y, 2, y)) {
                     return true;
                 }
             }
@@ -72,14 +72,18 @@ public class DiagramOfNinePlaces {
 
         private boolean failsVertically() {
             for (int x = 0; x < COLS; x++) {
-                if (failsAtIndexes(x, 0, x, 1, x, 2)) {
+                if (failsAtPlaces(x, 0, x, 1, x, 2)) {
                     return true;
                 }
             }
             return false;
         }
 
-        private boolean failsAtIndexes(int x1, int y1, int x2, int y2, int x3, int y3) {
+        private boolean failsDiagonally() {
+            return failsAtPlaces(0, 0, 1, 1, 2, 2) || failsAtPlaces(2, 0, 1, 1, 0, 2);
+        }
+
+        private boolean failsAtPlaces(int x1, int y1, int x2, int y2, int x3, int y3) {
             int v1 = diagram[index(x1, y1)];
             int v2 = diagram[index(x2, y2)];
             int v3 = diagram[index(x3, y3)];
@@ -200,6 +204,39 @@ public class DiagramOfNinePlaces {
 
         public void testFails() {
             assertTrue(diagram.fail());
+        }
+    }
+
+    public static class TestDiagramWithDiagonalFailure extends TestCase {
+
+        private Diagram diagram1;
+        private Diagram diagram2;
+
+        protected void setUp() throws Exception {
+            diagram1 = new Diagram()
+                    .with(0, 0, 1)
+                    .with(1, 1, 2)
+                    .with(2, 2, 3);
+            diagram2 = new Diagram()
+                    .with(2, 0, 1)
+                    .with(1, 1, 2)
+                    .with(0, 2, 3);
+        }
+
+        public void testTheValuesAreSet() {
+            assertEquals(diagram1.toString(), "" +
+                    "100\n" +
+                    "020\n" +
+                    "003\n");
+            assertEquals(diagram2.toString(), "" +
+                    "001\n" +
+                    "020\n" +
+                    "300\n");
+        }
+
+        public void testFails() {
+            assertTrue(diagram1.fail());
+            assertTrue(diagram2.fail());
         }
     }
 }
