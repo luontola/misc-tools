@@ -240,7 +240,6 @@ public class DiagramOfNinePlaces {
                     "123\n" +
                     "000\n" +
                     "000\n");
-
         }
 
         public void testFails() {
@@ -264,7 +263,6 @@ public class DiagramOfNinePlaces {
                     "100\n" +
                     "200\n" +
                     "300\n");
-
         }
 
         public void testFails() {
