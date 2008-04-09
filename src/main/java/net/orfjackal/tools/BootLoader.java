@@ -1,3 +1,7 @@
+/*
+ * Copyright (c) 2008, Esko Luontola. All Rights Reserved.
+ */
+
 package net.orfjackal.tools;
 
 import java.io.File;
