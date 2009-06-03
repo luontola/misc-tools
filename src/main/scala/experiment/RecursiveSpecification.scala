@@ -87,8 +87,7 @@ class Example(val context: RecursiveSpecification, val description: String, val 
   private def childIndexToExecute = {
     if (currentIsLeafExample) {
       None
-    } else
-    if (firstVisitToCurrentExample) {
+    } else if (firstVisitToCurrentExample) {
       Some(0)
     } else {
       Some(targetPath.first)

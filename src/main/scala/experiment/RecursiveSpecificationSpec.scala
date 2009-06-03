@@ -39,7 +39,7 @@ class RecursiveSpecificationSpec extends Specification {
     }
   }
 
-  "Gicen a spec with nested child examples" should {
+  "Given a spec with nested child examples" should {
     val root = Nil
     val pathA = List(0)
     val pathAA = List(0, 0)
