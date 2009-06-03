@@ -15,10 +15,9 @@ class RecursiveSpecification {
   }
 }
 
-class Example(val context: RecursiveSpecification, val description: String, val currentPathReversed: List[Int]) {
-  val currentPath = currentPathReversed.reverse
-  var targetPath: List[Int] = null
+class Example(val context: RecursiveSpecification, val description: String, val currentPath: List[Int]) {
   var executed: Boolean = false
+  var targetPath: List[Int] = null
   var exampleBody: () => Any = null
   val childExamples: Buffer[Example] = new ArrayBuffer()
 
@@ -28,7 +27,7 @@ class Example(val context: RecursiveSpecification, val description: String, val 
   }
 
   def newChildExample(desc: String): Example = {
-    val child = new Example(context, desc, childExamples.length :: currentPathReversed)
+    val child = new Example(context, desc, currentPath ::: List(childExamples.length))
     childExamples.append(child)
     child
   }
@@ -82,7 +81,7 @@ class Example(val context: RecursiveSpecification, val description: String, val 
         Nil
       }
     }
-    newUnexecutedIndexes.map((i) => (i :: currentPathReversed).reverse).toList
+    newUnexecutedIndexes.map((i) => currentPath ::: List(i)).toList
   }
 
   private def childIndexToExecute = {
