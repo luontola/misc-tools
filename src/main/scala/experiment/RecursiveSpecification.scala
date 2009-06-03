@@ -7,7 +7,6 @@ class RecursiveSpecification {
   private[experiment] var currentExample: Example = new Example(this, getClass.getSimpleName, Nil) in {}
 
   implicit def forExample(desc: String): Example = {
-    println("forExample: " + desc)
     currentExample.newChildExample(desc)
   }
 
@@ -18,6 +17,7 @@ class RecursiveSpecification {
 
 class Example(val context: RecursiveSpecification, val description: String, val currentPathReversed: List[Int]) {
   val currentPath = currentPathReversed.reverse
+  var targetPath: List[Int] = null
   var executed: Boolean = false
   var exampleBody: () => Any = null
   val childExamples: Buffer[Example] = new ArrayBuffer()
@@ -34,24 +34,45 @@ class Example(val context: RecursiveSpecification, val description: String, val 
   }
 
   def execute(targetPath: List[Int]): SpecRunResult = {
-    println("execute: " + description)
-    println(targetPath)
-    executeThisExample()
-    //    executeSelectedChildExample(targetPath)
+    prepareForExecute(targetPath);
+    val current = executeThisExample()
+    val child = executeSelectedChildExample()
+    mergeResults(current, child)
+  }
 
-    val currentIsLeafExample = (childExamples.length == 0)
-    val firstVisitToCurrentExample = (targetPath == Nil)
+  private def prepareForExecute(targetPath: List[Int]) {
+    assert(exampleBody != null, "No example body; the 'in' method must be called first")
+    assert(!executed, "This example has already been executed")
+    executed = true
+    this.targetPath = targetPath
+    context.currentExample = this
+  }
 
-    val childExampleIndexToExecute = {
-      if (currentIsLeafExample) {
-        None
-      } else if (firstVisitToCurrentExample) {
-        Some(0)
-      } else {
-        Some(targetPath.first)
-      }
+  private def executeThisExample(): SpecRunResult = {
+    exampleBody.apply()
+    new SpecRunResult(List(currentPath), newUnexecutedPaths);
+  }
+
+  private def executeSelectedChildExample(): Option[SpecRunResult] = {
+    childIndexToExecute match {
+      case Some(i) => Some(childExamples(i).execute(targetPath.drop(1)))
+      case None => None
     }
+  }
 
+  private def mergeResults(current: SpecRunResult, maybeChild: Option[SpecRunResult]): SpecRunResult = {
+    maybeChild match {
+      case Some(child) =>
+        new SpecRunResult(
+          List.concat(current.executedPaths, child.executedPaths),
+          List.concat(child.newUnexecutedPaths, current.newUnexecutedPaths))
+      case None => current
+    }
+  }
+
+  // helper methods
+
+  private def newUnexecutedPaths = {
     val newUnexecutedIndexes = {
       if (currentIsLeafExample) {
         Nil
@@ -61,45 +82,27 @@ class Example(val context: RecursiveSpecification, val description: String, val 
         Nil
       }
     }
-    val newUnexecutedPaths = {
-      newUnexecutedIndexes.map((i) => (i :: currentPathReversed).reverse).toList
-    }
+    newUnexecutedIndexes.map((i) => (i :: currentPathReversed).reverse).toList
+  }
 
-    childExampleIndexToExecute match {
-      case Some(i) => {
-        val childResult = childExamples(i).execute(targetPath.drop(1))
-        new SpecRunResult(
-          currentPath :: childResult.executedPaths,
-          List.concat(childResult.newUnexecutedPaths, newUnexecutedPaths)
-          )
-      }
-      case None => {
-        new SpecRunResult(List(currentPath), newUnexecutedPaths)
-      }
+  private def childIndexToExecute = {
+    if (currentIsLeafExample) {
+      None
+    } else
+    if (firstVisitToCurrentExample) {
+      Some(0)
+    } else {
+      Some(targetPath.first)
     }
   }
 
-  private def executeThisExample() {
-    assert(exampleBody != null, "No example body; the 'in' method must be called first")
-    assert(!executed, "This example has already been executed")
-    executed = true
-    context.currentExample = this
-    exampleBody.apply()
+  private def currentIsLeafExample = {
+    assert(executed)
+    childExamples.length == 0
   }
 
-  //  private def executeSelectedChildExample(targetPath: List[Int]) {
-  //    def childExampleToExecute = {
-  //      if (childExamples.length == 0) {
-  //        None
-  //      } else if (targetPath == Nil) {
-  //        Some(childExamples.first)
-  //      } else {
-  //        Some(childExamples(targetPath.first))
-  //      }
-  //    }
-  //    childExampleToExecute match {
-  //      case Some(example) => example.execute(targetPath.drop(1))
-  //      case None => null
-  //    }
-  //  }
+  private def firstVisitToCurrentExample = {
+    assert(targetPath != null)
+    targetPath == Nil
+  }
 }
