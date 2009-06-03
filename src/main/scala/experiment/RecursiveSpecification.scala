@@ -10,7 +10,7 @@ class RecursiveSpecification {
     currentExample.newChildExample(desc)
   }
 
-  def execute(targetPath: List[Int]): SpecRunResult = {
+  private[experiment] def execute(targetPath: List[Int]): SpecRunResult = {
     currentExample.execute(targetPath)
   }
 }
@@ -26,13 +26,13 @@ class Example(val context: RecursiveSpecification, val description: String, val 
     this
   }
 
-  def newChildExample(desc: String): Example = {
+  private[experiment] def newChildExample(desc: String): Example = {
     val child = new Example(context, desc, currentPath ::: List(childExamples.length))
     childExamples.append(child)
     child
   }
 
-  def execute(targetPath: List[Int]): SpecRunResult = {
+  private[experiment] def execute(targetPath: List[Int]): SpecRunResult = {
     prepareForExecute(targetPath);
     val current = executeThisExample()
     val child = executeSelectedChildExample()
