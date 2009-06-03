@@ -40,5 +40,8 @@ class DummySpecWithNestedChildExamples extends RecursiveSpecification {
     "bb" in {
       TestSpy.append(",bb")
     }
+    "bc" in {
+      TestSpy.append(",bc")
+    }
   }
 }

@@ -40,22 +40,43 @@ class RecursiveSpecificationSpec extends Specification {
   }
 
   "Gicen a spec with nested child examples" should {
+    val root = Nil
     val pathA = List(0)
     val pathAA = List(0, 0)
     val pathAB = List(0, 1)
     val pathB = List(1)
     val pathBA = List(1, 0)
     val pathBB = List(1, 1)
+    val pathBC = List(1, 2)
 
     "when it's run initially, the first nested leaf child example is executed" in {
       TestSpy.reset()
       runner.run(classOf[DummySpecWithNestedChildExamples])
       TestSpy.get() must_== "root,a,aa"
     }
-//    "when it's run initially, a list of found unexecuted examples is returned" in {
-//      TestSpy.reset()
-//      val results = runner.run(classOf[DummySpecWithNestedChildExamples])
-//      results.foundUnexecutedExamples must_== List(pathAB, pathB)
-//    }
+    "when it's run initially, a list of executed examples is returned" in {
+      val result = runner.run(classOf[DummySpecWithNestedChildExamples])
+      result.executedPaths must_== List(root, pathA, pathAA)
+    }
+    "when it's run initially, a list of new unexecuted examples is returned" in {
+      val result = runner.run(classOf[DummySpecWithNestedChildExamples])
+      result.newUnexecutedPaths must_== List(pathAB, pathB)
+    }
+    "when an unexecuted leaf example is executed, a list of executed examples is returned" in {
+      val result = runner.run(classOf[DummySpecWithNestedChildExamples], pathAB)
+      result.executedPaths must_== List(root, pathA, pathAB)
+    }
+    "when an unexecuted leaf example is executed, no more new unexecuted examples are found" in {
+      val result = runner.run(classOf[DummySpecWithNestedChildExamples], pathAB)
+      result.newUnexecutedPaths must_== Nil
+    }
+    "when an unexecuted non-leaf example is executed, a list of executed examples is returned" in {
+      val result = runner.run(classOf[DummySpecWithNestedChildExamples], pathB)
+      result.executedPaths must_== List(root, pathB, pathBA)
+    }
+    "when an unexecuted non-leaf example is executed, a list of new unexecuted examples is returned" in {
+      val result = runner.run(classOf[DummySpecWithNestedChildExamples], pathB)
+      result.newUnexecutedPaths must_== List(pathBB, pathBC)
+    }
   }
 }
