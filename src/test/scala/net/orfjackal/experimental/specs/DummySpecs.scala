@@ -1,4 +1,4 @@
-package experiment
+package net.orfjackal.experimental.specs
 
 class DummySpecWithoutChildExamples extends RecursiveSpecification {
   TestSpy.append("root")

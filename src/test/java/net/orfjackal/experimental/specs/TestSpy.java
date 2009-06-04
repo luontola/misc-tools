@@ -1,4 +1,4 @@
-package experiment;
+package net.orfjackal.experimental.specs;
 
 public class TestSpy {
 

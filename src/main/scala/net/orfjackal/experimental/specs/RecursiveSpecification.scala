@@ -1,16 +1,16 @@
-package experiment
+package net.orfjackal.experimental.specs
 
 import collection.mutable.{ArrayBuffer, Buffer}
 import java.util.ArrayList
 
 class RecursiveSpecification {
-  private[experiment] var currentExample: Example = new Example(this, getClass.getSimpleName, Nil) in {}
+  private[specs] var currentExample: Example = new Example(this, getClass.getSimpleName, Nil) in {}
 
   implicit def forExample(desc: String): Example = {
     currentExample.newChildExample(desc)
   }
 
-  private[experiment] def execute(targetPath: List[Int]): SpecRunResult = {
+  private[specs] def execute(targetPath: List[Int]): SpecRunResult = {
     currentExample.execute(targetPath)
   }
 }
@@ -26,13 +26,13 @@ class Example(val context: RecursiveSpecification, val description: String, val 
     this
   }
 
-  private[experiment] def newChildExample(desc: String): Example = {
+  private[specs] def newChildExample(desc: String): Example = {
     val child = new Example(context, desc, currentPath ::: List(childExamples.length))
     childExamples.append(child)
     child
   }
 
-  private[experiment] def execute(targetPath: List[Int]): SpecRunResult = {
+  private[specs] def execute(targetPath: List[Int]): SpecRunResult = {
     prepareForExecute(targetPath);
     val current = executeThisExample()
     val child = executeSelectedChildExample()

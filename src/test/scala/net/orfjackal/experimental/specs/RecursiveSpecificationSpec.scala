@@ -1,8 +1,8 @@
-package experiment
+package net.orfjackal.experimental.specs
 
-import org.specs.Specification
+import org.specs._
 
-class RecursiveSpecificationSpec extends Specification {
+class RecursiveSpecificationSpec extends SpecificationWithJUnit {
   val runner = new SpecRunner()
 
   "Given a spec with no examples" should {

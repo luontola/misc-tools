@@ -1,4 +1,4 @@
-package experiment
+package net.orfjackal.experimental.specs
 
 class SpecRunner {
   def run[S <: RecursiveSpecification](specClass: Class[S]): SpecRunResult = {
