@@ -24,13 +24,17 @@
 
 package net.orfjackal.experimental.nineplaces;
 
-import junit.framework.TestCase;
+import junit.framework.*;
 
 /**
  * @author Esko Luontola
  * @since 9.4.2008
  */
-public class TestDiagram {
+public class DiagramTest {
+
+    public static Test suite() {
+        return new TestSuite(DiagramTest.class.getDeclaredClasses());
+    }
 
     public static class EmptyDiagram extends TestCase {
 
