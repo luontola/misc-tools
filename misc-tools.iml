@@ -30,7 +30,6 @@
     <orderEntry type="library" name="Maven: org.objenesis:objenesis:1.0" level="project" />
     <orderEntry type="library" name="Maven: cglib:cglib-nodep:2.1_3" level="project" />
     <orderEntry type="library" name="Maven: org.jdave:jdave-core:1.1" level="project" />
-    <orderEntry type="library" name="Maven: junit:junit-dep:4.4" level="project" />
     <orderEntry type="library" name="Maven: junit:junit:4.5" level="project" />
     <orderEntry type="library" name="Maven: org.mockito:mockito-all:1.7" level="project" />
     <orderEntry type="library" name="Maven: metadata-extractor:metadata-extractor:2.2.2" level="project" />
