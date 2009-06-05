@@ -1,9 +1,11 @@
 package net.orfjackal.experimental.specs
 
 import org.specs._
+import mock.Mockito
 
-class RecursiveSpecificationSpec extends SpecificationWithJUnit {
-  val runner = new SpecRunner()
+class RecursiveSpecificationSpec extends SpecificationWithJUnit with Mockito {
+  val listener = mock[SpecRunListener]
+  val runner = new SpecRunner(listener)
 
   "Given a spec with no examples" should {
     "when it's run initially, the root example is executed" in {
@@ -62,6 +64,18 @@ class RecursiveSpecificationSpec extends SpecificationWithJUnit {
       val result = runner.run(classOf[DummySpecWithNestedChildExamples])
       result.newUnexecutedPaths must_== List(pathAB, pathB)
     }
+    "when it's run initially, the spec notifies about examples as they are run" in {
+      runner.run(classOf[DummySpecWithNestedChildExamples])
+      (
+              listener.fireBeginExample(root) on listener) then
+              (listener.fireBeginExample(pathA) on listener) then
+              (listener.fireBeginExample(pathAA) on listener) then
+              (listener.fireFinishExample(pathAA) on listener) then
+              (listener.fireFinishExample(pathA) on listener) then
+              (listener.fireFinishExample(root) on listener) were calledInOrder
+      listener had noMoreCalls
+    }
+
     "when an unexecuted leaf example is executed, a list of executed examples is returned" in {
       val result = runner.run(classOf[DummySpecWithNestedChildExamples], pathAB)
       result.executedPaths must_== List(root, pathA, pathAB)
@@ -70,6 +84,7 @@ class RecursiveSpecificationSpec extends SpecificationWithJUnit {
       val result = runner.run(classOf[DummySpecWithNestedChildExamples], pathAB)
       result.newUnexecutedPaths must_== Nil
     }
+
     "when an unexecuted non-leaf example is executed, a list of executed examples is returned" in {
       val result = runner.run(classOf[DummySpecWithNestedChildExamples], pathB)
       result.executedPaths must_== List(root, pathB, pathBA)

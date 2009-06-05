@@ -10,8 +10,8 @@ class RecursiveSpecification {
     currentExample.newChildExample(desc)
   }
 
-  private[specs] def execute(targetPath: List[Int]): SpecRunResult = {
-    currentExample.execute(targetPath)
+  private[specs] def execute(targetPath: List[Int], listener: SpecRunListener): SpecRunResult = {
+    currentExample.execute(targetPath, listener)
   }
 }
 
@@ -32,10 +32,12 @@ class Example(val context: RecursiveSpecification, val description: String, val 
     child
   }
 
-  private[specs] def execute(targetPath: List[Int]): SpecRunResult = {
+  private[specs] def execute(targetPath: List[Int], listener: SpecRunListener): SpecRunResult = {
     prepareForExecute(targetPath);
+    listener.fireBeginExample(currentPath)
     val current = executeThisExample()
-    val child = executeSelectedChildExample()
+    val child = executeSelectedChildExample(listener)
+    listener.fireFinishExample(currentPath)
     mergeResults(current, child)
   }
 
@@ -52,9 +54,9 @@ class Example(val context: RecursiveSpecification, val description: String, val 
     new SpecRunResult(List(currentPath), newUnexecutedPaths);
   }
 
-  private def executeSelectedChildExample(): Option[SpecRunResult] = {
+  private def executeSelectedChildExample(listener: SpecRunListener): Option[SpecRunResult] = {
     childIndexToExecute match {
-      case Some(i) => Some(childExamples(i).execute(targetPath.drop(1)))
+      case Some(i) => Some(childExamples(i).execute(targetPath.drop(1), listener))
       case None => None
     }
   }
