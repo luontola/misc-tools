@@ -7,16 +7,20 @@ public class FizzBuzz {
     private static final int BUZZ = 5;
 
     public static String textForNumber(int n) {
-        if (n % (FIZZ * BUZZ) == 0) {
+        if (multipleOf(FIZZ * BUZZ, n)) {
             return "FizzBuzz";
         }
-        if (n % FIZZ == 0) {
+        if (multipleOf(FIZZ, n)) {
             return "Fizz";
         }
-        if (n % BUZZ == 0) {
+        if (multipleOf(BUZZ, n)) {
             return "Buzz";
         }
         return Integer.toString(n);
+    }
+
+    private static boolean multipleOf(int multiplier, int n) {
+        return n % multiplier == 0;
     }
 
     public static void main(String[] args) {
