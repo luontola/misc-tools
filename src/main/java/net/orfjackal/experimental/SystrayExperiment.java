@@ -26,15 +26,16 @@ public class SystrayExperiment {
         });
         popup.add(mi);
 
-        BufferedImage i1 = new BufferedImage(24, 24, BufferedImage.TYPE_INT_RGB);
-        i1.getGraphics().drawOval(1, 1, 22, 22);
-        i1.getGraphics().drawLine(8, 8, 8, 12);
-        i1.getGraphics().drawLine(16, 8, 16, 12);
-        i1.getGraphics().fillArc(6, 11, 13, 10, 180, 180);
+        BufferedImage i1 = new BufferedImage(16, 16, BufferedImage.TYPE_INT_RGB);
+        i1.getGraphics().drawOval(0, 0, 15, 15);
+        i1.getGraphics().drawLine(5, 4, 5, 6);
+        i1.getGraphics().drawLine(10, 4, 10, 6);
+        i1.getGraphics().fillArc(3, 6, 9, 6, 180, 180);
         TrayIcon icon = new TrayIcon(i1);
         icon.setPopupMenu(popup);
         systray.add(icon);
 
-        Thread.sleep(50000);
+        Thread.sleep(15 * 1000);
+        System.exit(0);
     }
 }
