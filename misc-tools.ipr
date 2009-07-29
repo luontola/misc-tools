@@ -515,53 +515,6 @@
         <root url="jar://$M2_REPO$/junit/junit/4.5/junit-4.5-sources.jar!/" />
       </SOURCES>
     </library>
-    <library name="Maven: metadata-extractor:metadata-extractor:2.2.2">
-      <CLASSES>
-        <root url="jar://$PROJECT_DIR$/lib/metadata-extractor.jar!/" />
-        <root url="jar://$PROJECT_DIR$/lib/metadata-extractor.jar!/" />
-        <root url="jar://$PROJECT_DIR$/lib/metadata-extractor.jar!/" />
-        <root url="jar://$PROJECT_DIR$/lib/metadata-extractor.jar!/" />
-        <root url="jar://$PROJECT_DIR$/lib/metadata-extractor.jar!/" />
-        <root url="jar://$PROJECT_DIR$/lib/metadata-extractor.jar!/" />
-        <root url="jar://$PROJECT_DIR$/lib/metadata-extractor.jar!/" />
-        <root url="jar://$PROJECT_DIR$/lib/metadata-extractor.jar!/" />
-        <root url="jar://$PROJECT_DIR$/lib/metadata-extractor.jar!/" />
-        <root url="jar://$PROJECT_DIR$/lib/metadata-extractor.jar!/" />
-        <root url="jar://$PROJECT_DIR$/lib/metadata-extractor.jar!/" />
-        <root url="jar://$PROJECT_DIR$/lib/metadata-extractor.jar!/" />
-        <root url="jar://$PROJECT_DIR$/lib/metadata-extractor.jar!/" />
-      </CLASSES>
-      <JAVADOC>
-        <root url="jar://$PROJECT_DIR$/lib/metadata-extractor-javadoc.jar!/" />
-        <root url="jar://$PROJECT_DIR$/lib/metadata-extractor-javadoc.jar!/" />
-        <root url="jar://$PROJECT_DIR$/lib/metadata-extractor-javadoc.jar!/" />
-        <root url="jar://$PROJECT_DIR$/lib/metadata-extractor-javadoc.jar!/" />
-        <root url="jar://$PROJECT_DIR$/lib/metadata-extractor-javadoc.jar!/" />
-        <root url="jar://$PROJECT_DIR$/lib/metadata-extractor-javadoc.jar!/" />
-        <root url="jar://$PROJECT_DIR$/lib/metadata-extractor-javadoc.jar!/" />
-        <root url="jar://$PROJECT_DIR$/lib/metadata-extractor-javadoc.jar!/" />
-        <root url="jar://$PROJECT_DIR$/lib/metadata-extractor-javadoc.jar!/" />
-        <root url="jar://$PROJECT_DIR$/lib/metadata-extractor-javadoc.jar!/" />
-        <root url="jar://$PROJECT_DIR$/lib/metadata-extractor-javadoc.jar!/" />
-        <root url="jar://$PROJECT_DIR$/lib/metadata-extractor-javadoc.jar!/" />
-        <root url="jar://$PROJECT_DIR$/lib/metadata-extractor-javadoc.jar!/" />
-      </JAVADOC>
-      <SOURCES>
-        <root url="jar://$PROJECT_DIR$/lib/metadata-extractor-sources.jar!/" />
-        <root url="jar://$PROJECT_DIR$/lib/metadata-extractor-sources.jar!/" />
-        <root url="jar://$PROJECT_DIR$/lib/metadata-extractor-sources.jar!/" />
-        <root url="jar://$PROJECT_DIR$/lib/metadata-extractor-sources.jar!/" />
-        <root url="jar://$PROJECT_DIR$/lib/metadata-extractor-sources.jar!/" />
-        <root url="jar://$PROJECT_DIR$/lib/metadata-extractor-sources.jar!/" />
-        <root url="jar://$PROJECT_DIR$/lib/metadata-extractor-sources.jar!/" />
-        <root url="jar://$PROJECT_DIR$/lib/metadata-extractor-sources.jar!/" />
-        <root url="jar://$PROJECT_DIR$/lib/metadata-extractor-sources.jar!/" />
-        <root url="jar://$PROJECT_DIR$/lib/metadata-extractor-sources.jar!/" />
-        <root url="jar://$PROJECT_DIR$/lib/metadata-extractor-sources.jar!/" />
-        <root url="jar://$PROJECT_DIR$/lib/metadata-extractor-sources.jar!/" />
-        <root url="jar://$PROJECT_DIR$/lib/metadata-extractor-sources.jar!/" />
-      </SOURCES>
-    </library>
     <library name="Maven: org.scala-tools.testing:specs:1.6.0-SNAPSHOT">
       <CLASSES>
         <root url="jar://$M2_REPO$/org/scala-tools/testing/specs/1.6.0-SNAPSHOT/specs-1.6.0-SNAPSHOT.jar!/" />
@@ -593,6 +546,17 @@
       </JAVADOC>
       <SOURCES>
         <root url="jar://$M2_REPO$/asm/asm-all/3.2/asm-all-3.2-sources.jar!/" />
+      </SOURCES>
+    </library>
+    <library name="Maven: metadata-extractor:metadata-extractor:2.2.2">
+      <CLASSES>
+        <root url="jar://$PROJECT_DIR$/lib/metadata-extractor.jar!/" />
+      </CLASSES>
+      <JAVADOC>
+        <root url="jar://$PROJECT_DIR$/lib/metadata-extractor-javadoc.jar!/" />
+      </JAVADOC>
+      <SOURCES>
+        <root url="jar://$PROJECT_DIR$/lib/metadata-extractor-sources.jar!/" />
       </SOURCES>
     </library>
   </component>
