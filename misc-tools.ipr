@@ -405,17 +405,6 @@
         <root url="jar://$M2_REPO$/org/scala-lang/scala-compiler/2.7.3/scala-compiler-2.7.3-sources.jar!/" />
       </SOURCES>
     </library>
-    <library name="Maven: org.scala-tools.testing:specs:1.5.1-SNAPSHOT">
-      <CLASSES>
-        <root url="jar://$M2_REPO$/org/scala-tools/testing/specs/1.5.1-SNAPSHOT/specs-1.5.1-SNAPSHOT.jar!/" />
-      </CLASSES>
-      <JAVADOC>
-        <root url="jar://$M2_REPO$/org/scala-tools/testing/specs/1.5.1-SNAPSHOT/specs-1.5.1-SNAPSHOT-javadoc.jar!/" />
-      </JAVADOC>
-      <SOURCES>
-        <root url="jar://$M2_REPO$/org/scala-tools/testing/specs/1.5.1-SNAPSHOT/specs-1.5.1-SNAPSHOT-sources.jar!/" />
-      </SOURCES>
-    </library>
     <library name="Maven: org.scala-tools.testing:scalatest:0.9.5">
       <CLASSES>
         <root url="jar://$M2_REPO$/org/scala-tools/testing/scalatest/0.9.5/scalatest-0.9.5.jar!/" />
@@ -526,26 +515,84 @@
         <root url="jar://$M2_REPO$/junit/junit/4.5/junit-4.5-sources.jar!/" />
       </SOURCES>
     </library>
-    <library name="Maven: org.mockito:mockito-all:1.7">
-      <CLASSES>
-        <root url="jar://$M2_REPO$/org/mockito/mockito-all/1.7/mockito-all-1.7.jar!/" />
-      </CLASSES>
-      <JAVADOC>
-        <root url="jar://$M2_REPO$/org/mockito/mockito-all/1.7/mockito-all-1.7-javadoc.jar!/" />
-      </JAVADOC>
-      <SOURCES>
-        <root url="jar://$M2_REPO$/org/mockito/mockito-all/1.7/mockito-all-1.7-sources.jar!/" />
-      </SOURCES>
-    </library>
     <library name="Maven: metadata-extractor:metadata-extractor:2.2.2">
       <CLASSES>
+        <root url="jar://$PROJECT_DIR$/lib/metadata-extractor.jar!/" />
+        <root url="jar://$PROJECT_DIR$/lib/metadata-extractor.jar!/" />
+        <root url="jar://$PROJECT_DIR$/lib/metadata-extractor.jar!/" />
+        <root url="jar://$PROJECT_DIR$/lib/metadata-extractor.jar!/" />
+        <root url="jar://$PROJECT_DIR$/lib/metadata-extractor.jar!/" />
+        <root url="jar://$PROJECT_DIR$/lib/metadata-extractor.jar!/" />
+        <root url="jar://$PROJECT_DIR$/lib/metadata-extractor.jar!/" />
+        <root url="jar://$PROJECT_DIR$/lib/metadata-extractor.jar!/" />
+        <root url="jar://$PROJECT_DIR$/lib/metadata-extractor.jar!/" />
+        <root url="jar://$PROJECT_DIR$/lib/metadata-extractor.jar!/" />
+        <root url="jar://$PROJECT_DIR$/lib/metadata-extractor.jar!/" />
+        <root url="jar://$PROJECT_DIR$/lib/metadata-extractor.jar!/" />
         <root url="jar://$PROJECT_DIR$/lib/metadata-extractor.jar!/" />
       </CLASSES>
       <JAVADOC>
         <root url="jar://$PROJECT_DIR$/lib/metadata-extractor-javadoc.jar!/" />
+        <root url="jar://$PROJECT_DIR$/lib/metadata-extractor-javadoc.jar!/" />
+        <root url="jar://$PROJECT_DIR$/lib/metadata-extractor-javadoc.jar!/" />
+        <root url="jar://$PROJECT_DIR$/lib/metadata-extractor-javadoc.jar!/" />
+        <root url="jar://$PROJECT_DIR$/lib/metadata-extractor-javadoc.jar!/" />
+        <root url="jar://$PROJECT_DIR$/lib/metadata-extractor-javadoc.jar!/" />
+        <root url="jar://$PROJECT_DIR$/lib/metadata-extractor-javadoc.jar!/" />
+        <root url="jar://$PROJECT_DIR$/lib/metadata-extractor-javadoc.jar!/" />
+        <root url="jar://$PROJECT_DIR$/lib/metadata-extractor-javadoc.jar!/" />
+        <root url="jar://$PROJECT_DIR$/lib/metadata-extractor-javadoc.jar!/" />
+        <root url="jar://$PROJECT_DIR$/lib/metadata-extractor-javadoc.jar!/" />
+        <root url="jar://$PROJECT_DIR$/lib/metadata-extractor-javadoc.jar!/" />
+        <root url="jar://$PROJECT_DIR$/lib/metadata-extractor-javadoc.jar!/" />
       </JAVADOC>
       <SOURCES>
         <root url="jar://$PROJECT_DIR$/lib/metadata-extractor-sources.jar!/" />
+        <root url="jar://$PROJECT_DIR$/lib/metadata-extractor-sources.jar!/" />
+        <root url="jar://$PROJECT_DIR$/lib/metadata-extractor-sources.jar!/" />
+        <root url="jar://$PROJECT_DIR$/lib/metadata-extractor-sources.jar!/" />
+        <root url="jar://$PROJECT_DIR$/lib/metadata-extractor-sources.jar!/" />
+        <root url="jar://$PROJECT_DIR$/lib/metadata-extractor-sources.jar!/" />
+        <root url="jar://$PROJECT_DIR$/lib/metadata-extractor-sources.jar!/" />
+        <root url="jar://$PROJECT_DIR$/lib/metadata-extractor-sources.jar!/" />
+        <root url="jar://$PROJECT_DIR$/lib/metadata-extractor-sources.jar!/" />
+        <root url="jar://$PROJECT_DIR$/lib/metadata-extractor-sources.jar!/" />
+        <root url="jar://$PROJECT_DIR$/lib/metadata-extractor-sources.jar!/" />
+        <root url="jar://$PROJECT_DIR$/lib/metadata-extractor-sources.jar!/" />
+        <root url="jar://$PROJECT_DIR$/lib/metadata-extractor-sources.jar!/" />
+      </SOURCES>
+    </library>
+    <library name="Maven: org.scala-tools.testing:specs:1.6.0-SNAPSHOT">
+      <CLASSES>
+        <root url="jar://$M2_REPO$/org/scala-tools/testing/specs/1.6.0-SNAPSHOT/specs-1.6.0-SNAPSHOT.jar!/" />
+      </CLASSES>
+      <JAVADOC>
+        <root url="jar://$M2_REPO$/org/scala-tools/testing/specs/1.6.0-SNAPSHOT/specs-1.6.0-SNAPSHOT-javadoc.jar!/" />
+      </JAVADOC>
+      <SOURCES>
+        <root url="jar://$M2_REPO$/org/scala-tools/testing/specs/1.6.0-SNAPSHOT/specs-1.6.0-SNAPSHOT-sources.jar!/" />
+      </SOURCES>
+    </library>
+    <library name="Maven: org.mockito:mockito-all:1.8.0">
+      <CLASSES>
+        <root url="jar://$M2_REPO$/org/mockito/mockito-all/1.8.0/mockito-all-1.8.0.jar!/" />
+      </CLASSES>
+      <JAVADOC>
+        <root url="jar://$M2_REPO$/org/mockito/mockito-all/1.8.0/mockito-all-1.8.0-javadoc.jar!/" />
+      </JAVADOC>
+      <SOURCES>
+        <root url="jar://$M2_REPO$/org/mockito/mockito-all/1.8.0/mockito-all-1.8.0-sources.jar!/" />
+      </SOURCES>
+    </library>
+    <library name="Maven: asm:asm-all:3.2">
+      <CLASSES>
+        <root url="jar://$M2_REPO$/asm/asm-all/3.2/asm-all-3.2.jar!/" />
+      </CLASSES>
+      <JAVADOC>
+        <root url="jar://$M2_REPO$/asm/asm-all/3.2/asm-all-3.2-javadoc.jar!/" />
+      </JAVADOC>
+      <SOURCES>
+        <root url="jar://$M2_REPO$/asm/asm-all/3.2/asm-all-3.2-sources.jar!/" />
       </SOURCES>
     </library>
   </component>

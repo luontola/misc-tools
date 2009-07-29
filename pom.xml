@@ -29,17 +29,14 @@
     <repositories>
         <repository>
             <id>laughing-panda</id>
-            <name>Laughing Panda</name>
             <url>http://www.laughingpanda.org/maven2/</url>
         </repository>
         <repository>
             <id>scala-tools</id>
-            <name>Scala Tools</name>
             <url>http://scala-tools.org/repo-releases/</url>
         </repository>
         <repository>
-            <id>scala-tools-snapshots</id>
-            <name>Scala Tools</name>
+            <id>scala-tools-snapshot</id>
             <url>http://scala-tools.org/repo-snapshots/</url>
         </repository>
     </repositories>
@@ -73,7 +70,7 @@
         <dependency>
             <groupId>org.scala-tools.testing</groupId>
             <artifactId>specs</artifactId>
-            <version>1.5.1-SNAPSHOT</version>
+            <version>1.6.0-SNAPSHOT</version>
             <scope>test</scope>
         </dependency>
         <dependency>
@@ -105,7 +102,7 @@
         <dependency>
             <groupId>org.mockito</groupId>
             <artifactId>mockito-all</artifactId>
-            <version>1.7</version>
+            <version>1.8.0</version>
             <scope>test</scope>
         </dependency>
 
@@ -114,7 +111,7 @@
         <dependency>
             <groupId>asm</groupId>
             <artifactId>asm-all</artifactId>
-            <version>3.1</version>
+            <version>3.2</version>
         </dependency>
 
         <dependency>
