@@ -36,7 +36,7 @@ public class DiagramTest {
         return new TestSuite(DiagramTest.class.getDeclaredClasses());
     }
 
-    public static class EmptyDiagram extends TestCase {
+    public static class Empty_diagram extends TestCase {
 
         private Diagram diagram;
 
@@ -44,15 +44,15 @@ public class DiagramTest {
             diagram = new Diagram();
         }
 
-        public void testIsNotFull() {
+        public void test__Is_not_full() {
             assertFalse(diagram.full());
         }
 
-        public void testDoesNotFail() {
+        public void test__Does_not_fail() {
             assertFalse(diagram.fail());
         }
 
-        public void testNoValuesAreSet() {
+        public void test__No_values_are_set() {
             assertEquals(diagram.toString(), "" +
                     "000\n" +
                     "000\n" +
@@ -60,7 +60,7 @@ public class DiagramTest {
         }
     }
 
-    public static class AddingAValueToADiagram extends TestCase {
+    public static class Adding_a_value_to_a_diagram extends TestCase {
 
         private Diagram original;
         private Diagram diagram;
@@ -70,29 +70,29 @@ public class DiagramTest {
             diagram = original.with(0, 0, 1);
         }
 
-        public void testTheValueIsSet() {
+        public void test__The_value_is_set() {
             assertEquals(diagram.toString(), "" +
                     "100\n" +
                     "000\n" +
                     "000\n");
         }
 
-        public void testTheOriginalDiagramIsNotModified() {
+        public void test__The_original_diagram_is_not_modified() {
             assertEquals(original.toString(), "" +
                     "000\n" +
                     "000\n" +
                     "000\n");
         }
 
-        public void testOverwritingAValueIsNotAllowed() {
+        public void test__Overwriting_a_value_is_not_allowed() {
             assertNull(diagram.with(0, 0, 2));
         }
 
-        public void testUsingAValueTwiseIsNotAllowed() {
+        public void test__Using_a_value_twise_is_not_allowed() {
             assertNull(diagram.with(1, 1, 1));
         }
 
-        public void testAlsoAnIndexMayBeUsedInsteadOfXY() {
+        public void test__Also_an_index_may_be_used_instead_of_XY() {
             assertEquals(original.with(0, 2).toString(), "" +
                     "200\n" +
                     "000\n" +
@@ -100,7 +100,7 @@ public class DiagramTest {
         }
     }
 
-    public static class DiagramWithHorizontalFailure extends TestCase {
+    public static class Diagram_with_horizontal_failure extends TestCase {
 
         private Diagram diagram;
 
@@ -111,19 +111,19 @@ public class DiagramTest {
                     .with(2, 0, 3);
         }
 
-        public void testTheValuesAreSet() {
+        public void test__The_values_are_set() {
             assertEquals(diagram.toString(), "" +
                     "123\n" +
                     "000\n" +
                     "000\n");
         }
 
-        public void testFails() {
+        public void test__Fails() {
             assertTrue(diagram.fail());
         }
     }
 
-    public static class DiagramWithVerticalFailure extends TestCase {
+    public static class Diagram_with_vertical_failure extends TestCase {
 
         private Diagram diagram;
 
@@ -134,19 +134,19 @@ public class DiagramTest {
                     .with(0, 2, 3);
         }
 
-        public void testTheValuesAreSet() {
+        public void test__The_values_are_set() {
             assertEquals(diagram.toString(), "" +
                     "100\n" +
                     "200\n" +
                     "300\n");
         }
 
-        public void testFails() {
+        public void test__Fails() {
             assertTrue(diagram.fail());
         }
     }
 
-    public static class DiagramWithDiagonalFailure extends TestCase {
+    public static class Diagram_with_diagonal_failure extends TestCase {
 
         private Diagram diagram1;
         private Diagram diagram2;
@@ -162,7 +162,7 @@ public class DiagramTest {
                     .with(0, 2, 3);
         }
 
-        public void testTheValuesAreSet() {
+        public void test__The_values_are_set() {
             assertEquals(diagram1.toString(), "" +
                     "100\n" +
                     "020\n" +
@@ -173,13 +173,13 @@ public class DiagramTest {
                     "300\n");
         }
 
-        public void testFails() {
+        public void test__Fails() {
             assertTrue(diagram1.fail());
             assertTrue(diagram2.fail());
         }
     }
 
-    public static class AlmostFullDiagram extends TestCase {
+    public static class Almost_full_diagram extends TestCase {
 
         private Diagram diagram;
 
@@ -195,11 +195,11 @@ public class DiagramTest {
                     .with(2, 1, 8);
         }
 
-        public void testIsNotFull() {
+        public void test__Is_not_full() {
             assertFalse(diagram.full());
         }
 
-        public void testIsFullAfterSettingTheLastValue() {
+        public void test__Is_full_after_setting_the_last_value() {
             Diagram fullDiagram = diagram.with(2, 2, 9);
             assertTrue(fullDiagram.full());
         }
