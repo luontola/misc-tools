@@ -306,7 +306,11 @@
   <component name="ProjectDetails">
     <option name="projectName" value="misc-tools" />
   </component>
-  <component name="ProjectFileVersion" converted="true" />
+  <component name="ProjectFileVersion" converted="true">
+    <converter id="javaee-modules" />
+    <converter id="ror-modules" />
+    <converter id="SelenaRunConfToDiana" />
+  </component>
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/misc-tools.iml" filepath="$PROJECT_DIR$/misc-tools.iml" />
