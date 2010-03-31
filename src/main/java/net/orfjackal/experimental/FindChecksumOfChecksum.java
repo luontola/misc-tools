@@ -28,7 +28,7 @@ public class FindChecksumOfChecksum {
     }
 
     private static void checkChecksumOfChecksum(int checksum) {
-        String hex = toHex32(checksum);
+        String hex = toLowercaseHex32(checksum);
         byte[] lowercase = hex.getBytes(ASCII);
         byte[] uppercase = hex.toUpperCase().getBytes(ASCII);
         byte[] bigEndian = intToBytesBigEndian(checksum);
@@ -40,7 +40,7 @@ public class FindChecksumOfChecksum {
         checkChecksum(checksum, littleEndian);
     }
 
-    private static String toHex32(int checksum) {
+    static String toLowercaseHex32(int checksum) {
         String hex = Integer.toHexString(checksum);
         while (hex.length() < 8) {
             hex = "0" + hex;
@@ -48,7 +48,7 @@ public class FindChecksumOfChecksum {
         return hex;
     }
 
-    private static byte[] intToBytesBigEndian(int value) {
+    static byte[] intToBytesBigEndian(int value) {
         return new byte[]{
                 (byte) (value >>> 24),
                 (byte) (value >>> 16),
@@ -57,7 +57,7 @@ public class FindChecksumOfChecksum {
         };
     }
 
-    private static byte[] intToBytesLittleEndian(int value) {
+    static byte[] intToBytesLittleEndian(int value) {
         return new byte[]{
                 (byte) value,
                 (byte) (value >>> 8),
@@ -68,11 +68,11 @@ public class FindChecksumOfChecksum {
 
     private static void checkChecksum(int expected, byte[] bytes) {
         if (getCrc32(bytes) == expected) {
-            System.out.println("FOUND! " + toHex32(expected) + " " + Arrays.toString(bytes));
+            System.out.println("FOUND! " + toLowercaseHex32(expected) + " " + Arrays.toString(bytes));
         }
     }
 
-    private static int getCrc32(byte[] bytes) {
+    static int getCrc32(byte[] bytes) {
         CRC32 crc = new CRC32();
         crc.update(bytes);
         return (int) crc.getValue();
