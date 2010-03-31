@@ -12,7 +12,7 @@ import java.util.zip.CRC32;
  */
 public class FindChecksumOfChecksum {
 
-    private static final Charset ASCII = Charset.forName("US-ASCII");
+    static final Charset ASCII = Charset.forName("US-ASCII");
 
     public static void main(String[] args) {
         System.out.println("Start on " + new Date());
