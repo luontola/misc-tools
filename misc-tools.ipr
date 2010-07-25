@@ -66,13 +66,19 @@
     <option name="SKIP_IMPORT_STATEMENTS" value="false" />
   </component>
   <component name="EclipseCompilerSettings">
-    <option name="DEBUGGING_INFO" value="true" />
     <option name="GENERATE_NO_WARNINGS" value="true" />
     <option name="DEPRECATION" value="false" />
-    <option name="ADDITIONAL_OPTIONS_STRING" value="" />
-    <option name="MAXIMUM_HEAP_SIZE" value="128" />
   </component>
   <component name="Encoding" useUTFGuessing="true" native2AsciiForPropertiesFiles="false" />
+  <component name="FacetAutodetectingManager">
+    <autodetection-disabled>
+      <facet-type id="Scala">
+        <modules>
+          <module name="misc-tools" />
+        </modules>
+      </facet-type>
+    </autodetection-disabled>
+  </component>
   <component name="InspectionProjectProfileManager">
     <profiles>
       <profile version="1.0" is_locked="false">
@@ -164,14 +170,6 @@
     <option name="HEAP_SIZE" />
     <option name="LOCALE" />
     <option name="OPEN_IN_BROWSER" value="true" />
-  </component>
-  <component name="JikesSettings">
-    <option name="JIKES_PATH" value="" />
-    <option name="DEBUGGING_INFO" value="true" />
-    <option name="DEPRECATION" value="true" />
-    <option name="GENERATE_NO_WARNINGS" value="false" />
-    <option name="IS_EMACS_ERRORS_MODE" value="true" />
-    <option name="ADDITIONAL_OPTIONS_STRING" value="" />
   </component>
   <component name="MavenProjectsManager">
     <option name="originalFiles">
@@ -378,6 +376,34 @@
       <ConfigurationWrapper RunnerId="Run" />
       <method />
     </configuration>
+    <configuration default="false" name="All tests with coverage" type="JUnit" factoryName="JUnit">
+      <extension name="coverage" enabled="true" merge="false" track_test_folders="true" runner="idea">
+        <pattern>
+          <option name="PATTERN" value="net.orfjackal.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <extension name="snapshooter" />
+      <module name="misc-tools" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" value="" />
+      <option name="PACKAGE_NAME" value="" />
+      <option name="MAIN_CLASS_NAME" value="" />
+      <option name="METHOD_NAME" value="" />
+      <option name="TEST_OBJECT" value="package" />
+      <option name="VM_PARAMETERS" value="-ea" />
+      <option name="PARAMETERS" value="" />
+      <option name="WORKING_DIRECTORY" value="file://$PROJECT_DIR$" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <option name="TEST_SEARCH_SCOPE">
+        <value defaultName="wholeProject" />
+      </option>
+      <envs />
+      <RunnerSettings RunnerId="Run" />
+      <ConfigurationWrapper RunnerId="Run" />
+      <method />
+    </configuration>
   </component>
   <component name="ResourceManagerContainer">
     <option name="myResourceBundles">
@@ -395,39 +421,6 @@
   </component>
   <component name="WebServicesPlugin" addRequiredLibraries="true" />
   <component name="libraryTable">
-    <library name="Maven: org.scala-lang:scala-library:2.7.3">
-      <CLASSES>
-        <root url="jar://$MAVEN_REPOSITORY$/org/scala-lang/scala-library/2.7.3/scala-library-2.7.3.jar!/" />
-      </CLASSES>
-      <JAVADOC>
-        <root url="jar://$MAVEN_REPOSITORY$/org/scala-lang/scala-library/2.7.3/scala-library-2.7.3-javadoc.jar!/" />
-      </JAVADOC>
-      <SOURCES>
-        <root url="jar://$MAVEN_REPOSITORY$/org/scala-lang/scala-library/2.7.3/scala-library-2.7.3-sources.jar!/" />
-      </SOURCES>
-    </library>
-    <library name="Maven: org.scala-lang:scala-compiler:2.7.3">
-      <CLASSES>
-        <root url="jar://$MAVEN_REPOSITORY$/org/scala-lang/scala-compiler/2.7.3/scala-compiler-2.7.3.jar!/" />
-      </CLASSES>
-      <JAVADOC>
-        <root url="jar://$MAVEN_REPOSITORY$/org/scala-lang/scala-compiler/2.7.3/scala-compiler-2.7.3-javadoc.jar!/" />
-      </JAVADOC>
-      <SOURCES>
-        <root url="jar://$MAVEN_REPOSITORY$/org/scala-lang/scala-compiler/2.7.3/scala-compiler-2.7.3-sources.jar!/" />
-      </SOURCES>
-    </library>
-    <library name="Maven: org.scala-tools.testing:scalatest:0.9.5">
-      <CLASSES>
-        <root url="jar://$MAVEN_REPOSITORY$/org/scala-tools/testing/scalatest/0.9.5/scalatest-0.9.5.jar!/" />
-      </CLASSES>
-      <JAVADOC>
-        <root url="jar://$MAVEN_REPOSITORY$/org/scala-tools/testing/scalatest/0.9.5/scalatest-0.9.5-javadoc.jar!/" />
-      </JAVADOC>
-      <SOURCES>
-        <root url="jar://$MAVEN_REPOSITORY$/org/scala-tools/testing/scalatest/0.9.5/scalatest-0.9.5-sources.jar!/" />
-      </SOURCES>
-    </library>
     <library name="Maven: org.jdave:jdave-junit4:1.1">
       <CLASSES>
         <root url="jar://$MAVEN_REPOSITORY$/org/jdave/jdave-junit4/1.1/jdave-junit4-1.1.jar!/" />
@@ -516,28 +509,6 @@
         <root url="jar://$MAVEN_REPOSITORY$/cglib/cglib-nodep/2.1_3/cglib-nodep-2.1_3-sources.jar!/" />
       </SOURCES>
     </library>
-    <library name="Maven: junit:junit:4.5">
-      <CLASSES>
-        <root url="jar://$MAVEN_REPOSITORY$/junit/junit/4.5/junit-4.5.jar!/" />
-      </CLASSES>
-      <JAVADOC>
-        <root url="jar://$MAVEN_REPOSITORY$/junit/junit/4.5/junit-4.5-javadoc.jar!/" />
-      </JAVADOC>
-      <SOURCES>
-        <root url="jar://$MAVEN_REPOSITORY$/junit/junit/4.5/junit-4.5-sources.jar!/" />
-      </SOURCES>
-    </library>
-    <library name="Maven: org.mockito:mockito-all:1.8.0">
-      <CLASSES>
-        <root url="jar://$MAVEN_REPOSITORY$/org/mockito/mockito-all/1.8.0/mockito-all-1.8.0.jar!/" />
-      </CLASSES>
-      <JAVADOC>
-        <root url="jar://$MAVEN_REPOSITORY$/org/mockito/mockito-all/1.8.0/mockito-all-1.8.0-javadoc.jar!/" />
-      </JAVADOC>
-      <SOURCES>
-        <root url="jar://$MAVEN_REPOSITORY$/org/mockito/mockito-all/1.8.0/mockito-all-1.8.0-sources.jar!/" />
-      </SOURCES>
-    </library>
     <library name="Maven: asm:asm-all:3.2">
       <CLASSES>
         <root url="jar://$MAVEN_REPOSITORY$/asm/asm-all/3.2/asm-all-3.2.jar!/" />
@@ -560,15 +531,70 @@
         <root url="jar://$PROJECT_DIR$/lib/metadata-extractor-sources.jar!/" />
       </SOURCES>
     </library>
-    <library name="Maven: org.scala-tools.testing:specs:1.6.1">
+    <library name="Maven: org.scala-lang:scala-library:2.8.0">
       <CLASSES>
-        <root url="jar://$MAVEN_REPOSITORY$/org/scala-tools/testing/specs/1.6.1/specs-1.6.1.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/org/scala-lang/scala-library/2.8.0/scala-library-2.8.0.jar!/" />
       </CLASSES>
       <JAVADOC>
-        <root url="jar://$MAVEN_REPOSITORY$/org/scala-tools/testing/specs/1.6.1/specs-1.6.1-javadoc.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/org/scala-lang/scala-library/2.8.0/scala-library-2.8.0-javadoc.jar!/" />
       </JAVADOC>
       <SOURCES>
-        <root url="jar://$MAVEN_REPOSITORY$/org/scala-tools/testing/specs/1.6.1/specs-1.6.1-sources.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/org/scala-lang/scala-library/2.8.0/scala-library-2.8.0-sources.jar!/" />
+      </SOURCES>
+    </library>
+    <library name="Maven: org.scala-lang:scala-compiler:2.8.0">
+      <CLASSES>
+        <root url="jar://$MAVEN_REPOSITORY$/org/scala-lang/scala-compiler/2.8.0/scala-compiler-2.8.0.jar!/" />
+      </CLASSES>
+      <JAVADOC>
+        <root url="jar://$MAVEN_REPOSITORY$/org/scala-lang/scala-compiler/2.8.0/scala-compiler-2.8.0-javadoc.jar!/" />
+      </JAVADOC>
+      <SOURCES>
+        <root url="jar://$MAVEN_REPOSITORY$/org/scala-lang/scala-compiler/2.8.0/scala-compiler-2.8.0-sources.jar!/" />
+      </SOURCES>
+    </library>
+    <library name="Maven: org.scala-tools.testing:specs_2.8.0:1.6.5">
+      <CLASSES>
+        <root url="jar://$MAVEN_REPOSITORY$/org/scala-tools/testing/specs_2.8.0/1.6.5/specs_2.8.0-1.6.5.jar!/" />
+      </CLASSES>
+      <JAVADOC>
+        <root url="jar://$MAVEN_REPOSITORY$/org/scala-tools/testing/specs_2.8.0/1.6.5/specs_2.8.0-1.6.5-javadoc.jar!/" />
+      </JAVADOC>
+      <SOURCES>
+        <root url="jar://$MAVEN_REPOSITORY$/org/scala-tools/testing/specs_2.8.0/1.6.5/specs_2.8.0-1.6.5-sources.jar!/" />
+      </SOURCES>
+    </library>
+    <library name="Maven: org.scalatest:scalatest:1.2">
+      <CLASSES>
+        <root url="jar://$MAVEN_REPOSITORY$/org/scalatest/scalatest/1.2/scalatest-1.2.jar!/" />
+      </CLASSES>
+      <JAVADOC>
+        <root url="jar://$MAVEN_REPOSITORY$/org/scalatest/scalatest/1.2/scalatest-1.2-javadoc.jar!/" />
+      </JAVADOC>
+      <SOURCES>
+        <root url="jar://$MAVEN_REPOSITORY$/org/scalatest/scalatest/1.2/scalatest-1.2-sources.jar!/" />
+      </SOURCES>
+    </library>
+    <library name="Maven: junit:junit:4.8.1">
+      <CLASSES>
+        <root url="jar://$MAVEN_REPOSITORY$/junit/junit/4.8.1/junit-4.8.1.jar!/" />
+      </CLASSES>
+      <JAVADOC>
+        <root url="jar://$MAVEN_REPOSITORY$/junit/junit/4.8.1/junit-4.8.1-javadoc.jar!/" />
+      </JAVADOC>
+      <SOURCES>
+        <root url="jar://$MAVEN_REPOSITORY$/junit/junit/4.8.1/junit-4.8.1-sources.jar!/" />
+      </SOURCES>
+    </library>
+    <library name="Maven: org.mockito:mockito-all:1.8.5">
+      <CLASSES>
+        <root url="jar://$MAVEN_REPOSITORY$/org/mockito/mockito-all/1.8.5/mockito-all-1.8.5.jar!/" />
+      </CLASSES>
+      <JAVADOC>
+        <root url="jar://$MAVEN_REPOSITORY$/org/mockito/mockito-all/1.8.5/mockito-all-1.8.5-javadoc.jar!/" />
+      </JAVADOC>
+      <SOURCES>
+        <root url="jar://$MAVEN_REPOSITORY$/org/mockito/mockito-all/1.8.5/mockito-all-1.8.5-sources.jar!/" />
       </SOURCES>
     </library>
   </component>
