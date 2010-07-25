@@ -1,7 +1,7 @@
 package net.orfjackal.experimental;
 
-import java.io.File;
-import java.util.Enumeration;
+import java.io.*;
+import java.util.*;
 import java.util.concurrent.*;
 import java.util.jar.*;
 
@@ -10,8 +10,8 @@ import java.util.jar.*;
  * and supports parallel capable class loaders.
  * <p/>
  * Results on C2Q6600 (4 cores)<br>
- * - JDK 6's class loading is single-threaded, and trying to load in parallel causes ~10% slowdown<br>
- * - JDK 7's class loading can be parallelized, and loading in parallel brings ~40% speedup
+ * - JDK 6's class loading is single-threaded, and trying to load in parallel causes ~15% slowdown<br>
+ * - JDK 7's class loading can be parallelized, and loading in parallel brings ~50% speedup
  *
  * @author Esko Luontola
  * @since 26.7.2010
@@ -26,9 +26,10 @@ public class ConcurrentClassLoadingBenchmark {
 
     public static void main(String[] args) throws Exception {
         File bigJarFile = toFile(args[0]);
+        List<String> classNames = getClassNamesFrom(bigJarFile);
 
         long start = System.nanoTime();
-        loadAllClassesIn(bigJarFile);
+        loadClassesInParallel(classNames);
         long end = System.nanoTime();
 
         double duration = nanosToMillis(end - start);
@@ -48,24 +49,21 @@ public class ConcurrentClassLoadingBenchmark {
         return nanos / 1000000.0;
     }
 
-    private static void loadAllClassesIn(File jarFile) throws Exception {
+    private static List<String> getClassNamesFrom(File jarFile) throws IOException {
+        List<String> classNames = new ArrayList<String>();
         JarFile jar = new JarFile(jarFile);
         try {
-            loadAllClassesIn(jar);
+            Enumeration<JarEntry> it = jar.entries();
+            while (it.hasMoreElements()) {
+                JarEntry entry = it.nextElement();
+                if (isClass(entry)) {
+                    classNames.add(getClassName(entry));
+                }
+            }
         } finally {
             jar.close();
         }
-    }
-
-    private static void loadAllClassesIn(JarFile jarFile) throws InterruptedException {
-        Enumeration<JarEntry> it = jarFile.entries();
-        while (it.hasMoreElements()) {
-            JarEntry entry = it.nextElement();
-            if (isClass(entry)) {
-                queueForLoadingInParallel(getClassName(entry));
-            }
-        }
-        waitForClassesToLoad();
+        return classNames;
     }
 
     private static boolean isClass(JarEntry entry) {
@@ -75,6 +73,13 @@ public class ConcurrentClassLoadingBenchmark {
     private static String getClassName(JarEntry entry) {
         String name = entry.getName();
         return name.substring(0, name.lastIndexOf(".class")).replaceAll("/", ".");
+    }
+
+    private static void loadClassesInParallel(List<String> classNames) throws InterruptedException {
+        for (String className : classNames) {
+            queueForLoadingInParallel(className);
+        }
+        waitForClassesToLoad();
     }
 
     private static void queueForLoadingInParallel(final String className) {
