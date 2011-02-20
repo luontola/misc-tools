@@ -44,6 +44,10 @@
             <id>scala-tools-snapshot</id>
             <url>http://scala-tools.org/repo-snapshots/</url>
         </repository>
+        <repository>
+            <id>itextpdf.com</id>
+            <url>http://maven.itextpdf.com/</url>
+        </repository>
     </repositories>
 
     <pluginRepositories>
@@ -125,6 +129,12 @@
             <version>2.2.2</version>
             <scope>system</scope>
             <systemPath>${basedir}/lib/metadata-extractor.jar</systemPath>
+        </dependency>
+
+        <dependency>
+            <groupId>com.itextpdf</groupId>
+            <artifactId>itextpdf</artifactId>
+            <version>5.0.4</version>
         </dependency>
 
     </dependencies>
