@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="Maven: metadata-extractor:metadata-extractor:2.2.2">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/lib/metadata-extractor.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$PROJECT_DIR$/lib/metadata-extractor-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$PROJECT_DIR$/lib/metadata-extractor-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>
