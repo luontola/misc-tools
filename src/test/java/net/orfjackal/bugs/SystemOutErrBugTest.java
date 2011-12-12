@@ -2,8 +2,6 @@ package net.orfjackal.bugs;
 
 import org.junit.Test;
 
-import static junit.framework.Assert.assertEquals;
-
 /**
  * Test for reproducing http://youtrack.jetbrains.net/issue/IDEA-62423
  * and http://youtrack.jetbrains.net/issue/IDEA-62424
@@ -19,6 +17,5 @@ public class SystemOutErrBugTest {
             System.out.println("<ooooooooooooooooooooooooooooooooo>");
             System.err.println("<eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee>");
         }
-        assertEquals(1, 2);
     }
 }
