@@ -1,7 +1,7 @@
 <component name="ProjectRunConfigurationManager">
   <configuration default="false" name="All Clojure tests" type="ClojureScriptRunConfiguration" factoryName="Clojure Script">
     <module name="misc-tools" />
-    <setting name="path" value="src\test\clojure\net\orfjackal\all_tests.clj" />
+    <setting name="path" value="src/test/clojure/net/orfjackal/all_tests.clj" />
     <setting name="vmparams" value="" />
     <setting name="params" value="" />
     <setting name="workDir" value="" />
