@@ -3,12 +3,12 @@
         clojure.test))
 
 (defn set-live-neighbours [world cell neighbour-count]
-  (let [neighbours-to-liven (take neighbour-count (neighbours cell))]
+  (let [neighbours-to-liven (shuffle (take neighbour-count (neighbours cell)))]
     (reduce #(enliven %1 %2) world neighbours-to-liven)))
 
 (deftest world-tests
-  (let [cell (new-cell 4 4)
-        other-cell (new-cell 3 3)
+  (let [cell (new-cell 0 0)
+        other-cell (new-cell 0 1)
         world (new-world)]
 
     (testing "At first all cells are dead (i.e. not live)"
