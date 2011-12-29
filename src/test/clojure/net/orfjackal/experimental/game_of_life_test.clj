@@ -6,7 +6,7 @@
   (let [neighbours-to-liven (shuffle (take neighbour-count (neighbours cell)))]
     (reduce #(enliven %1 %2) world neighbours-to-liven)))
 
-(deftest world-tests
+(deftest game-of-life-tests
   (let [cell (new-cell 0 0)
         other-cell (new-cell 0 1)
         world (new-world)]
@@ -43,13 +43,14 @@
           (is (dead? (tick (set-live-neighbours world cell 7)) cell))
           (is (dead? (tick (set-live-neighbours world cell 8)) cell)))))
 
-    (testing "On tick, any dead cell with 4 live neighbours comes to life"
-      (is (live? (tick (set-live-neighbours world cell 4)) cell)))
+    (testing "On tick, any dead cell with 3 live neighbours comes to life"
+      (is (live? (tick (set-live-neighbours world cell 3)) cell)))
 
     (testing "On tick, all other dead cells stay dead"
       (is (dead? (tick (set-live-neighbours world cell 0)) cell))
       (is (dead? (tick (set-live-neighbours world cell 1)) cell))
       (is (dead? (tick (set-live-neighbours world cell 2)) cell))
+      (is (dead? (tick (set-live-neighbours world cell 4)) cell))
       (is (dead? (tick (set-live-neighbours world cell 5)) cell))
       (is (dead? (tick (set-live-neighbours world cell 6)) cell))
       (is (dead? (tick (set-live-neighbours world cell 7)) cell))

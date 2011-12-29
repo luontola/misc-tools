@@ -63,7 +63,7 @@
   (let [n (live-neighbours-count world cell)]
     (if (live? world cell)
       (or (= n 2) (= n 3))
-      (= n 4))))
+      (= n 3))))
 
 (defn tick [world]
   (reduce
