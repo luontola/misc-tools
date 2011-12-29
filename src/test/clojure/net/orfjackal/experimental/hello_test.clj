@@ -1,6 +1,6 @@
 (ns net.orfjackal.experimental.hello-test
-  (:use net.orfjackal.experimental.hello)
-  (:use clojure.test))
+  (:use net.orfjackal.experimental.hello
+        clojure.test))
 
 (deftest say-hello-world
   (is (= "Hello World" (say-hello "World"))))
