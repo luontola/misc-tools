@@ -3,7 +3,7 @@
             [net.orfjackal.game-of-life.cell :as c]
             [net.orfjackal.game-of-life.visualizer :as v])
   (:import [javax.swing SwingUtilities JFrame JLabel JPanel JButton]
-           [java.awt.event ActionListener]
+           [java.awt.event ActionListener MouseListener MouseEvent]
            [java.awt BorderLayout Graphics2D Color]))
 
 ; http://stuartsierra.com/2010/01/03/doto-swing-with-clojure
@@ -22,10 +22,12 @@
         world (w/enliven world (c/new-cell 3 2))
         world (w/enliven world (c/new-cell 2 1))
 
-        visualizer (v/new-visualizer world)
-        visualizer (v/set-scaling visualizer 3)
+        scale 5
+        world (atom world)
 
-        visualizer-panel
+        ; layout components
+
+        world-panel
         (doto (proxy [JPanel] []
                 (paintComponent [g]
                   (proxy-super paintComponent g)
@@ -33,16 +35,11 @@
                     (.setColor Color/BLACK))
                   (doall (map
                            (fn [cell] (.fillRect g (:x cell) (:y cell) (:width cell) (:height cell)))
-                           (v/cells-to-draw visualizer)))))
+                           (v/cells-to-draw (deref world) scale)))))
           (.setBackground Color/WHITE))
 
         tick-button
-        (doto (JButton. "Tick")
-          (.addActionListener
-            (proxy [ActionListener] []
-              (actionPerformed [event]
-                (v/update! visualizer w/tick)
-                (.repaint visualizer-panel)))))
+        (doto (JButton. "Tick"))
 
         controls-panel
         (doto (JPanel.)
@@ -51,9 +48,37 @@
         content-pane
         (doto (JPanel.)
           (.setLayout (BorderLayout.))
-          (.add visualizer-panel BorderLayout/CENTER)
-          (.add controls-panel BorderLayout/SOUTH))
-        ]
+          (.add world-panel BorderLayout/CENTER)
+          (.add controls-panel BorderLayout/SOUTH))]
+
+    ; operations
+
+    (defn update-world! [f]
+      (swap! world f)
+      (.repaint world-panel))
+
+    ; register listeners
+
+    (doto world-panel
+      (.addMouseListener
+        (proxy [MouseListener] []
+          (mouseClicked [event])
+          (mouseEntered [event])
+          (mouseExited [event])
+          (mousePressed [event]
+            (let [clicked-cell (v/cell-for-pixel scale (.getX event) (.getY event))
+                  enliven-or-kill (if (= MouseEvent/BUTTON1 (.getButton event)) w/enliven w/kill)]
+              (update-world! #(enliven-or-kill % clicked-cell))))
+          (mouseReleased [event]))))
+
+    (doto tick-button
+      (.addActionListener
+        (proxy [ActionListener] []
+          (actionPerformed [event]
+            (update-world! w/tick)))))
+
+    ; create frame
+
     (doto (JFrame. "Conway's Game of Life")
       (.setContentPane content-pane)
       (.setDefaultCloseOperation JFrame/EXIT_ON_CLOSE)
