@@ -31,11 +31,17 @@
 (defn live-neighbours-count [world cell]
   (count-if #(live? world %) (c/neighbours cell)))
 
+(defn- live-cell-continues-living? [neighbours]
+  (or (= neighbours 2) (= neighbours 3)))
+
+(defn- dead-cell-comes-to-life? [neighbours]
+  (= neighbours 3))
+
 (defn- will-live? [world cell]
-  (let [n (live-neighbours-count world cell)]
+  (let [neighbours (live-neighbours-count world cell)]
     (if (live? world cell)
-      (or (= n 2) (= n 3))
-      (= n 3))))
+      (live-cell-continues-living? neighbours)
+      (dead-cell-comes-to-life? neighbours))))
 
 (defn tick [world]
   (reduce
