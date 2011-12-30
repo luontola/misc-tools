@@ -4,7 +4,7 @@
             [net.orfjackal.game-of-life.visualizer :as v])
   (:import [javax.swing SwingUtilities JFrame JLabel JPanel JButton]
            [java.awt.event ActionListener]
-           [java.awt BorderLayout]))
+           [java.awt BorderLayout Graphics2D Color]))
 
 ; http://stuartsierra.com/2010/01/03/doto-swing-with-clojure
 ;(defmacro on-action [component event & body]
@@ -14,29 +14,39 @@
 
 (defn start-gui []
   (let [world (w/new-world)
-        world (w/enliven world (c/new-cell 0 1))
-        world (w/enliven world (c/new-cell 0 2))
-        world (w/enliven world (c/new-cell 0 3))
-        visualizer (v/new-visualizer world)
 
-        temp-label (JLabel. "")
+        ; Glider
+        world (w/enliven world (c/new-cell 1 3))
+        world (w/enliven world (c/new-cell 2 3))
+        world (w/enliven world (c/new-cell 3 3))
+        world (w/enliven world (c/new-cell 3 2))
+        world (w/enliven world (c/new-cell 2 1))
+
+        visualizer (v/new-visualizer world)
+        visualizer (v/set-scaling visualizer 3)
+
+        visualizer-panel
+        (doto (proxy [JPanel] []
+                (paintComponent [g]
+                  (proxy-super paintComponent g)
+                  (doto g
+                    (.setColor Color/BLACK))
+                  (doall (map
+                           (fn [cell] (.fillRect g (:x cell) (:y cell) (:width cell) (:height cell)))
+                           (v/cells-to-draw visualizer)))))
+          (.setBackground Color/WHITE))
+
         tick-button
         (doto (JButton. "Tick")
-          ; (on-action event (println (str "Action: " event)))
           (.addActionListener
             (proxy [ActionListener] []
               (actionPerformed [event]
                 (v/update! visualizer w/tick)
-                (.setText temp-label (str (v/get-world visualizer)))))))
+                (.repaint visualizer-panel)))))
 
         controls-panel
         (doto (JPanel.)
-          (.setOpaque true)
-          (.add temp-label)
           (.add tick-button))
-
-        visualizer-panel
-        (doto (JPanel.))
 
         content-pane
         (doto (JPanel.)
