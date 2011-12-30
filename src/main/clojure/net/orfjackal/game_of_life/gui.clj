@@ -1,5 +1,5 @@
-(ns net.orfjackal.experimental.game-of-life-gui
-  (:use net.orfjackal.experimental.game-of-life)
+(ns net.orfjackal.game-of-life.gui
+  (:use net.orfjackal.game-of-life.world)
   (:import (javax.swing SwingUtilities JFrame JLabel JPanel JButton)
            (java.awt.event ActionListener)))
 

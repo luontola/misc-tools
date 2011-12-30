@@ -1,12 +1,12 @@
-(ns net.orfjackal.experimental.game-of-life-test
-  (:use net.orfjackal.experimental.game-of-life
+(ns net.orfjackal.game-of-life.world-test
+  (:use net.orfjackal.game-of-life.world
         clojure.test))
 
 (defn set-live-neighbours [world cell neighbour-count]
   (let [neighbours-to-liven (shuffle (take neighbour-count (neighbours cell)))]
     (reduce #(enliven %1 %2) world neighbours-to-liven)))
 
-(deftest game-of-life-tests
+(deftest world-tests
   (let [cell (new-cell 0 0)
         other-cell (new-cell 0 1)
         world (new-world)]

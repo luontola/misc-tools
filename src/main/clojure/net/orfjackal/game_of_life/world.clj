@@ -1,4 +1,4 @@
-(ns net.orfjackal.experimental.game-of-life
+(ns net.orfjackal.game-of-life.world
   (:use clojure.set))
 
 ; utils
