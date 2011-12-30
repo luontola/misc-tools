@@ -2,7 +2,7 @@
   (:require [net.orfjackal.game-of-life.world :as w]
             [net.orfjackal.game-of-life.cell :as c]
             [net.orfjackal.game-of-life.visualizer :as v])
-  (:import [javax.swing SwingUtilities JFrame JLabel JPanel JButton]
+  (:import [javax.swing SwingUtilities JFrame JLabel JPanel JButton Timer]
            [java.awt.event ActionListener MouseListener MouseEvent]
            [java.awt BorderLayout Graphics2D Color]))
 
@@ -24,6 +24,7 @@
 
         scale 5
         world (atom world)
+        ticker (Timer. 500 nil)
 
         ; layout components
 
@@ -38,12 +39,16 @@
                            (v/cells-to-draw (deref world) scale)))))
           (.setBackground Color/WHITE))
 
-        tick-button
-        (doto (JButton. "Tick"))
+        step-button
+        (doto (JButton. "Step"))
+
+        start-stop-button
+        (doto (JButton. "Start"))
 
         controls-panel
         (doto (JPanel.)
-          (.add tick-button))
+          (.add step-button)
+          (.add start-stop-button))
 
         content-pane
         (doto (JPanel.)
@@ -56,6 +61,17 @@
     (defn update-world! [f]
       (swap! world f)
       (.repaint world-panel))
+
+    (defn tick! []
+      (update-world! w/tick))
+
+    (defn start-ticker! []
+      (.start ticker)
+      (.setText start-stop-button "Stop"))
+
+    (defn stop-ticker! []
+      (.stop ticker)
+      (.setText start-stop-button "Start"))
 
     ; register listeners
 
@@ -71,11 +87,26 @@
               (update-world! #(enliven-or-kill % clicked-cell))))
           (mouseReleased [event]))))
 
-    (doto tick-button
+    (doto ticker
       (.addActionListener
         (proxy [ActionListener] []
           (actionPerformed [event]
-            (update-world! w/tick)))))
+            (tick!)))))
+
+    (doto step-button
+      (.addActionListener
+        (proxy [ActionListener] []
+          (actionPerformed [event]
+            (stop-ticker!)
+            (tick!)))))
+
+    (doto start-stop-button
+      (.addActionListener
+        (proxy [ActionListener] []
+          (actionPerformed [event]
+            (if (.isRunning ticker)
+              (stop-ticker!)
+              (start-ticker!))))))
 
     ; create frame
 
