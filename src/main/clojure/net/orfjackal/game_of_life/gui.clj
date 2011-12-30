@@ -39,16 +39,21 @@
                            (v/cells-to-draw (deref world) scale)))))
           (.setBackground Color/WHITE))
 
-        step-button
-        (doto (JButton. "Step"))
-
         start-stop-button
         (doto (JButton. "Start"))
 
+        step-button
+        (doto (JButton. "Step"))
+
+        reset-button
+        (doto (JButton. "Reset")
+          (.setForeground Color/RED))
+
         controls-panel
         (doto (JPanel.)
+          (.add start-stop-button)
           (.add step-button)
-          (.add start-stop-button))
+          (.add reset-button))
 
         content-pane
         (doto (JPanel.)
@@ -73,6 +78,10 @@
       (.stop ticker)
       (.setText start-stop-button "Start"))
 
+    (defn reset-world! []
+      (stop-ticker!)
+      (update-world! (fn [world] (w/new-world))))
+
     ; register listeners
 
     (doto world-panel
@@ -93,13 +102,6 @@
           (actionPerformed [event]
             (tick!)))))
 
-    (doto step-button
-      (.addActionListener
-        (proxy [ActionListener] []
-          (actionPerformed [event]
-            (stop-ticker!)
-            (tick!)))))
-
     (doto start-stop-button
       (.addActionListener
         (proxy [ActionListener] []
@@ -107,6 +109,19 @@
             (if (.isRunning ticker)
               (stop-ticker!)
               (start-ticker!))))))
+
+    (doto step-button
+      (.addActionListener
+        (proxy [ActionListener] []
+          (actionPerformed [event]
+            (stop-ticker!)
+            (tick!)))))
+
+    (doto reset-button
+      (.addActionListener
+        (proxy [ActionListener] []
+          (actionPerformed [event]
+            (reset-world!)))))
 
     ; create frame
 
