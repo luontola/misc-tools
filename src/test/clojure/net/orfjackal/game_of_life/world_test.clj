@@ -1,5 +1,6 @@
 (ns net.orfjackal.game-of-life.world-test
   (:use net.orfjackal.game-of-life.world
+        net.orfjackal.game-of-life.cell
         clojure.test))
 
 (defn set-live-neighbours [world cell neighbour-count]
