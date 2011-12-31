@@ -24,7 +24,7 @@
 
         scale 5
         world (atom world)
-        ticker (Timer. 500 nil)
+        ticker (Timer. 100 nil)
 
         ; layout components
 
