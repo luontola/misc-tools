@@ -37,6 +37,16 @@
             <id>laughing-panda</id>
             <url>http://www.laughingpanda.org/maven2/</url>
         </repository>
+        <repository>
+            <id>sonatype-snapshots</id>
+            <url>https://oss.sonatype.org/content/repositories/snapshots/</url>
+            <releases>
+                <enabled>false</enabled>
+            </releases>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </repository>
     </repositories>
 
     <dependencies>
@@ -107,6 +117,19 @@
             <artifactId>mockito-all</artifactId>
             <version>1.9.0-rc1</version>
             <scope>test</scope>
+        </dependency>
+
+        <!-- Benchmarking -->
+
+        <dependency>
+            <groupId>com.google.code.caliper</groupId>
+            <artifactId>caliper</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>com.google.code.gson</groupId>
+            <artifactId>gson</artifactId>
+            <version>1.7.2</version>
         </dependency>
 
         <!-- Others -->
