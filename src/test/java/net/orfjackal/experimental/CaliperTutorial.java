@@ -173,6 +173,6 @@ public class CaliperTutorial extends SimpleBenchmark {
 //        Runner.main(Benchmark2.class);
 //        Runner.main(Benchmark3.class);
 //        Runner.main(Benchmark4.class);
-        Runner.main(Benchmark5.class, "-Dsize=10,100,1000");
+        Runner.main(Benchmark5.class, new String[]{"-Dsize=10,100,1000"});
     }
 }
