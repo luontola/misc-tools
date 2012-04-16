@@ -1,14 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <module MavenProjectsManager.isMavenModule="true" org.jetbrains.idea.maven.project.MavenProjectsManager.isMavenModule="true" relativePaths="true" type="JAVA_MODULE" version="4">
   <component name="FacetManager">
-    <facet type="scala" name="Scala">
-      <configuration>
-        <option name="compilerLibraryLevel" value="Project" />
-        <option name="compilerLibraryName" value="Maven: org.scala-lang:scala-compiler-bundle:2.9.1" />
-        <option name="fsc" value="true" />
-        <option name="vmOptions" value="" />
-      </configuration>
-    </facet>
     <facet type="Clojure" name="Clojure">
       <configuration />
     </facet>
