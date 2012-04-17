@@ -1,13 +1,9 @@
 package net.orfjackal.bugs;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.ServerSocket;
-import java.net.Socket;
-import java.util.concurrent.Callable;
-import java.util.concurrent.FutureTask;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.io.*;
+import java.net.*;
+import java.util.concurrent.*;
+import java.util.logging.*;
 
 public class FileInputStreamReadBytesBug {
 
@@ -66,7 +62,7 @@ public class FileInputStreamReadBytesBug {
     private static Process startSlaveProcess(int commPort) throws IOException {
         String separator = System.getProperty("file.separator");
         String javaProc = System.getProperty("java.home") + separator + "bin" + separator + "java";
-        ProcessBuilder pb = new ProcessBuilder(javaProc, "-cp", "target/test-classes;.", "net.orfjackal.bugs.Hello", String.valueOf(commPort));
+        ProcessBuilder pb = new ProcessBuilder(javaProc, "-cp", "target/test-classes;.", CrashingSlave.class.getName(), String.valueOf(commPort));
         return pb.start();
     }
 
