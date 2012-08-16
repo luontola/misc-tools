@@ -20,6 +20,14 @@ public class CrashingSlave {
 
         Runtime.getRuntime().halt(1);
 //        getUnsafe().putAddress(0, 0);
+//        allocationCrash();
+    }
+
+    private static void allocationCrash() { // might have worked in some Java 5 or 6 versions, but not anymore
+        Object[] o = null;
+        while (true) {
+            o = new Object[]{o};
+        }
     }
 
     private static Unsafe getUnsafe() throws Exception {
