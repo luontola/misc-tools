@@ -132,4 +132,4 @@
       (.setLocation 300 300)
       (.setVisible true))))
 
-(SwingUtilities/invokeLater (fn [] (start-gui)))
+;(SwingUtilities/invokeLater (fn [] (start-gui)))
