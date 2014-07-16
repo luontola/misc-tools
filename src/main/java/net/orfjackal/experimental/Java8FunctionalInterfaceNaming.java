@@ -21,37 +21,27 @@ public class Java8FunctionalInterfaceNaming {
 
     public String getClassName() {
         if (args.length == 0) {
-            if (isGeneric(returns)) {
-                return "Supplier";
-            } else {
-                return capitalize(returns) + "Supplier";
-            }
+            return primitiveName(returns) + "Supplier";
         }
 
         if (returns(void.class)) {
             if (args.length == 1) {
-                if (isGeneric(args[0])) {
-                    return "Consumer";
-                } else {
-                    return capitalize(args[0]) + "Consumer";
-                }
+                return primitiveName(args[0]) + "Consumer";
             }
             if (args.length == 2) {
                 if (isGeneric(args[0]) && isGeneric(args[1])) {
                     return "BiConsumer";
-                } else {
+                }
+                if (isGeneric(args[0])) {
                     return "Obj" + capitalize(args[1]) + "Consumer";
                 }
+                throw new AssertionError();
             }
         }
 
         if (returns(boolean.class)) {
             if (args.length == 1) {
-                if (isGeneric(args[0])) {
-                    return "Predicate";
-                } else {
-                    return capitalize(args[0]) + "Predicate";
-                }
+                return primitiveName(args[0]) + "Predicate";
             }
             if (args.length == 2) {
                 return "BiPredicate";
@@ -59,12 +49,11 @@ public class Java8FunctionalInterfaceNaming {
         }
 
         if (allEqual(args, returns)) {
-            String[] nameByArity = {null, "UnaryOperator", "BinaryOperator"};
-            String name = nameByArity[args.length];
-            if (isGeneric(args[0])) {
-                return name;
-            } else {
-                return capitalize(args[0]) + name;
+            if (args.length == 1) {
+                return primitiveName(args[0]) + "UnaryOperator";
+            }
+            if (args.length == 2) {
+                return primitiveName(args[0]) + "BinaryOperator";
             }
         }
 
@@ -80,7 +69,6 @@ public class Java8FunctionalInterfaceNaming {
             }
             return capitalize(args[0]) + "To" + capitalize(returns) + "Function";
         }
-
         if (args.length == 2) {
             if (isGeneric(returns)) {
                 return "BiFunction";
@@ -114,7 +102,19 @@ public class Java8FunctionalInterfaceNaming {
         }
     }
 
-    private boolean isGeneric(String type) {
+    private static String primitiveName(String type) {
+        if (isPrimitive(type)) {
+            return capitalize(type);
+        } else {
+            return "";
+        }
+    }
+
+    private static boolean isPrimitive(String type) {
+        return !isGeneric(type);
+    }
+
+    private static boolean isGeneric(String type) {
         return type.length() == 1;
     }
 
