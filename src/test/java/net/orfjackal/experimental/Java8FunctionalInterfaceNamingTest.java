@@ -4,10 +4,11 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 
+import java.lang.reflect.Method;
 import java.util.Arrays;
 
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.*;
 
 /**
  * @author Esko Luontola
@@ -16,16 +17,14 @@ import static org.hamcrest.Matchers.is;
 @RunWith(Parameterized.class)
 public class Java8FunctionalInterfaceNamingTest {
 
-    private final String args;
-    private final String returns;
-    private final String methodName;
-    private final String className;
+    private final String expectedMethodName;
+    private final String expectedClassName;
+    private final Java8FunctionalInterfaceNaming generator;
 
     public Java8FunctionalInterfaceNamingTest(String args, String returns, String methodName, String className) {
-        this.args = args;
-        this.returns = returns;
-        this.methodName = methodName;
-        this.className = className;
+        this.expectedMethodName = methodName;
+        this.expectedClassName = className;
+        this.generator = new Java8FunctionalInterfaceNaming(args, returns);
     }
 
     @Parameterized.Parameters(name = "({0}) -> {1}")
@@ -79,11 +78,18 @@ public class Java8FunctionalInterfaceNamingTest {
 
     @Test
     public void generates_method_names() {
-        assertThat(new Java8FunctionalInterfaceNaming(args, returns).getMethodName(), is(methodName));
+        assertThat(generator.getMethodName(), is(expectedMethodName));
     }
 
     @Test
     public void generates_class_names() {
-        assertThat(new Java8FunctionalInterfaceNaming(args, returns).getClassName(), is(className));
+        assertThat(generator.getClassName(), is(expectedClassName));
+    }
+
+    @Test
+    public void examples_match_the_Java_library() throws Exception {
+        Class<?> clazz = Class.forName("java.util.function." + expectedClassName);
+        Method method = clazz.getMethod(expectedMethodName, generator.getParameterTypes());
+        assertThat("return type", method.getReturnType(), is(equalTo(generator.getReturnType())));
     }
 }

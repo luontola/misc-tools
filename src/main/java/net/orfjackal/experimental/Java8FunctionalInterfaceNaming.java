@@ -1,5 +1,7 @@
 package net.orfjackal.experimental;
 
+import com.google.common.primitives.Primitives;
+
 import java.util.Arrays;
 
 /**
@@ -143,5 +145,28 @@ public class Java8FunctionalInterfaceNaming {
             }
         }
         return true;
+    }
+
+    public Class<?>[] getParameterTypes() {
+        return Arrays.asList(args).stream()
+                .map(Java8FunctionalInterfaceNaming::stringToClass)
+                .toArray(Class<?>[]::new);
+    }
+
+    public Class<?> getReturnType() {
+        return stringToClass(returns);
+    }
+
+    private static Class<?> stringToClass(String type) {
+        if (type.equals("")) {
+            return void.class;
+        }
+        if (isGeneric(type)) {
+            return Object.class;
+        }
+        return Primitives.allPrimitiveTypes().stream()
+                .filter(c -> c.getName().equals(type))
+                .findAny()
+                .get();
     }
 }
