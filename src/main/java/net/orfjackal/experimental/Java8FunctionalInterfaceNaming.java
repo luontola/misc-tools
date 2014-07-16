@@ -20,91 +20,97 @@ public class Java8FunctionalInterfaceNaming {
     }
 
     public String getClassName() {
+
+        // Suppliers
         if (args.length == 0) {
-            return primitiveName(returns) + "Supplier";
+            return tagPrimitive(returns) + "Supplier";
         }
 
+        // Consumers
         if (returns(void.class)) {
             if (args.length == 1) {
-                return primitiveName(args[0]) + "Consumer";
+                return tagPrimitive(args[0]) + "Consumer";
             }
             if (args.length == 2) {
                 if (isGeneric(args[0]) && isGeneric(args[1])) {
                     return "BiConsumer";
                 }
                 if (isGeneric(args[0])) {
-                    return "Obj" + capitalize(args[1]) + "Consumer";
+                    return "Obj" + tagPrimitive(args[1]) + "Consumer";
                 }
-                throw new AssertionError();
             }
         }
 
+        // Predicates
         if (returns(boolean.class)) {
             if (args.length == 1) {
-                return primitiveName(args[0]) + "Predicate";
+                return tagPrimitive(args[0]) + "Predicate";
             }
             if (args.length == 2) {
                 return "BiPredicate";
             }
         }
 
+        // Operators
         if (allEqual(args, returns)) {
             if (args.length == 1) {
-                return primitiveName(args[0]) + "UnaryOperator";
+                return tagPrimitive(args[0]) + "UnaryOperator";
             }
             if (args.length == 2) {
-                return primitiveName(args[0]) + "BinaryOperator";
+                return tagPrimitive(args[0]) + "BinaryOperator";
             }
         }
 
+        // Functions
         if (args.length == 1) {
-            if (isGeneric(args[0]) && isGeneric(returns)) {
-                return "Function";
-            }
-            if (isGeneric(args[0])) {
-                return "To" + capitalize(returns) + "Function";
-            }
-            if (isGeneric(returns)) {
-                return capitalize(args[0]) + "Function";
-            }
-            return capitalize(args[0]) + "To" + capitalize(returns) + "Function";
+            return tagPrimitive(args[0]) + tagToPrimitive(returns) + "Function";
         }
         if (args.length == 2) {
-            if (isGeneric(returns)) {
-                return "BiFunction";
-            }
-            return "To" + capitalize(returns) + "BiFunction";
+            return tagToPrimitive(returns) + "BiFunction";
         }
         return null;
     }
 
     public String getMethodName() {
+
+        // Suppliers
         if (args.length == 0) {
-            if (isGeneric(returns)) {
-                return "get";
-            } else {
-                return "getAs" + capitalize(returns);
-            }
+            return "get" + tagAsPrimitive(returns);
         }
 
+        // Consumers
         if (returns(void.class)) {
             return "accept";
         }
 
+        // Predicates
         if (returns(boolean.class)) {
             return "test";
         }
 
-        if (isGeneric(returns)) {
-            return "apply";
+        // Functions & Operators
+        return "apply" + tagAsPrimitive(returns);
+    }
+
+    private static String tagPrimitive(String type) {
+        if (isPrimitive(type)) {
+            return capitalize(type);
         } else {
-            return "applyAs" + capitalize(returns);
+            return "";
         }
     }
 
-    private static String primitiveName(String type) {
+    private static String tagAsPrimitive(String type) {
         if (isPrimitive(type)) {
-            return capitalize(type);
+            return "As" + capitalize(type);
+        } else {
+            return "";
+        }
+    }
+
+    private static String tagToPrimitive(String type) {
+        if (isPrimitive(type)) {
+            return "To" + capitalize(type);
         } else {
             return "";
         }
