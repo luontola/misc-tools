@@ -37,9 +37,7 @@ public class Java8FunctionalInterfaceNaming {
                 if (isGeneric(args[0]) && isGeneric(args[1])) {
                     return "BiConsumer";
                 }
-                if (isGeneric(args[0])) {
-                    return "Obj" + tagPrimitive(args[1]) + "Consumer";
-                }
+                return tagObjOrPrimitive(args[0]) + tagObjOrPrimitive(args[1]) + "Consumer";
             }
         }
 
@@ -92,6 +90,14 @@ public class Java8FunctionalInterfaceNaming {
 
         // Functions & Operators
         return "apply" + tagAsPrimitive(returns);
+    }
+
+    private static String tagObjOrPrimitive(String type) {
+        if (isPrimitive(type)) {
+            return capitalize(type);
+        } else {
+            return "Obj";
+        }
     }
 
     private static String tagPrimitive(String type) {
