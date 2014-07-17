@@ -149,11 +149,7 @@ public class Java8FunctionalInterfaceNaming {
     }
 
     private boolean returns(Class<?> type) {
-        if (type == void.class) {
-            return returns.equals("");
-        } else {
-            return returns.equals(type.getName());
-        }
+        return returns.equals(type.getName());
     }
 
     private static boolean allEqual(String[] args, String returns) {
@@ -176,9 +172,6 @@ public class Java8FunctionalInterfaceNaming {
     }
 
     private static Class<?> stringToClass(String type) {
-        if (type.equals("")) {
-            return void.class;
-        }
         if (isGeneric(type)) {
             return Object.class;
         }
