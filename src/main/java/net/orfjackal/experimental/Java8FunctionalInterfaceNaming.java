@@ -25,13 +25,11 @@ public class Java8FunctionalInterfaceNaming {
 
     public String getClassName() {
 
-        // Suppliers
-        if (args.length == 0) {
-            return tagPrimitive(returns) + "Supplier"; // generalizable as operator of arity 0, but it would be confusing
-        }
-
         // Consumers
         if (returns(void.class)) {
+            if (args.length == 0) {
+                return "Runnable";
+            }
             if (args.length == 1) {
                 return tagPrimitives(args) + "Consumer";
             }
@@ -41,6 +39,11 @@ public class Java8FunctionalInterfaceNaming {
                 }
                 return tagObjOrPrimitives(args) + "Consumer";
             }
+        }
+
+        // Suppliers
+        if (args.length == 0) {
+            return tagPrimitive(returns) + "Supplier"; // generalizable as operator of arity 0, but it would be confusing
         }
 
         // Predicates
@@ -62,14 +65,17 @@ public class Java8FunctionalInterfaceNaming {
 
     public String getMethodName() {
 
+        // Consumers
+        if (returns(void.class)) {
+            if (args.length == 0) {
+                return "run";
+            }
+            return "accept";
+        }
+
         // Suppliers
         if (args.length == 0) {
             return "get" + tagAsPrimitive(returns);
-        }
-
-        // Consumers
-        if (returns(void.class)) {
-            return "accept";
         }
 
         // Predicates
@@ -136,6 +142,9 @@ public class Java8FunctionalInterfaceNaming {
     }
 
     private static String capitalize(String s) {
+        if (s.isEmpty()) {
+            return s;
+        }
         return s.substring(0, 1).toUpperCase() + s.substring(1);
     }
 
