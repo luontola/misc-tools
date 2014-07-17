@@ -27,7 +27,7 @@ public class Java8FunctionalInterfaceNaming {
 
         // Suppliers
         if (args.length == 0) {
-            return tagPrimitive(returns) + "Supplier";
+            return tagPrimitive(returns) + "Supplier"; // generalizable as operator of arity 0, but it would be confusing
         }
 
         // Consumers
@@ -45,32 +45,19 @@ public class Java8FunctionalInterfaceNaming {
 
         // Predicates
         if (returns(boolean.class)) {
-            if (args.length == 1) {
-                return tagPrimitives(args) + "Predicate";
-            }
-            if (args.length == 2) {
-                return tagPrimitives(args) + "BiPredicate";
-            }
+            String[] nameByArity = {null, "Predicate", "BiPredicate"};
+            return tagPrimitives(args) + nameByArity[args.length];
         }
 
         // Operators
         if (allEqual(args, returns)) {
-            if (args.length == 1) {
-                return tagPrimitive(returns) + "UnaryOperator";
-            }
-            if (args.length == 2) {
-                return tagPrimitive(returns) + "BinaryOperator";
-            }
+            String[] nameByArity = {null, "UnaryOperator", "BinaryOperator"};
+            return tagPrimitive(returns) + nameByArity[args.length];
         }
 
         // Functions
-        if (args.length == 1) {
-            return tagPrimitives(args) + tagToPrimitive(returns) + "Function";
-        }
-        if (args.length == 2) {
-            return tagPrimitives(args) + tagToPrimitive(returns) + "BiFunction";
-        }
-        return null;
+        String[] nameByArity = {null, "Function", "BiFunction"};
+        return tagPrimitives(args) + tagToPrimitive(returns) + nameByArity[args.length];
     }
 
     public String getMethodName() {
