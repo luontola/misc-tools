@@ -3,6 +3,8 @@ package net.orfjackal.experimental;
 import com.google.common.primitives.Primitives;
 
 import java.util.Arrays;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 /**
  * @author Esko Luontola
@@ -31,42 +33,42 @@ public class Java8FunctionalInterfaceNaming {
         // Consumers
         if (returns(void.class)) {
             if (args.length == 1) {
-                return tagPrimitive(args[0]) + "Consumer";
+                return tagPrimitives(args) + "Consumer";
             }
             if (args.length == 2) {
                 if (isGeneric(args[0]) && isGeneric(args[1])) {
                     return "BiConsumer";
                 }
-                return tagObjOrPrimitive(args[0]) + tagObjOrPrimitive(args[1]) + "Consumer";
+                return tagObjOrPrimitives(args) + "Consumer";
             }
         }
 
         // Predicates
         if (returns(boolean.class)) {
             if (args.length == 1) {
-                return tagPrimitive(args[0]) + "Predicate";
+                return tagPrimitives(args) + "Predicate";
             }
             if (args.length == 2) {
-                return "BiPredicate";
+                return tagPrimitives(args) + "BiPredicate";
             }
         }
 
         // Operators
         if (allEqual(args, returns)) {
             if (args.length == 1) {
-                return tagPrimitive(args[0]) + "UnaryOperator";
+                return tagPrimitive(returns) + "UnaryOperator";
             }
             if (args.length == 2) {
-                return tagPrimitive(args[0]) + "BinaryOperator";
+                return tagPrimitive(returns) + "BinaryOperator";
             }
         }
 
         // Functions
         if (args.length == 1) {
-            return tagPrimitive(args[0]) + tagToPrimitive(returns) + "Function";
+            return tagPrimitives(args) + tagToPrimitive(returns) + "Function";
         }
         if (args.length == 2) {
-            return tagToPrimitive(returns) + "BiFunction";
+            return tagPrimitives(args) + tagToPrimitive(returns) + "BiFunction";
         }
         return null;
     }
@@ -90,6 +92,20 @@ public class Java8FunctionalInterfaceNaming {
 
         // Functions & Operators
         return "apply" + tagAsPrimitive(returns);
+    }
+
+    private static String tagObjOrPrimitives(String... types) {
+        return join(Java8FunctionalInterfaceNaming::tagObjOrPrimitive, types);
+    }
+
+    private static String tagPrimitives(String... types) {
+        return join(Java8FunctionalInterfaceNaming::tagPrimitive, types);
+    }
+
+    private static String join(Function<String, String> fn, String... types) {
+        return Arrays.asList(types).stream()
+                .map(fn)
+                .collect(Collectors.joining());
     }
 
     private static String tagObjOrPrimitive(String type) {
