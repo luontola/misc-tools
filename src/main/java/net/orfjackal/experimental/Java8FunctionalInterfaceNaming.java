@@ -2,9 +2,8 @@ package net.orfjackal.experimental;
 
 import com.google.common.primitives.Primitives;
 
-import java.util.Arrays;
 import java.util.function.Function;
-import java.util.stream.Collectors;
+import java.util.stream.*;
 
 /**
  * @author Esko Luontola
@@ -17,8 +16,7 @@ public class Java8FunctionalInterfaceNaming {
 
     public Java8FunctionalInterfaceNaming(String args, String returns) {
         this.returns = returns;
-        this.args = Arrays.asList(args.split(", "))
-                .stream()
+        this.args = Stream.of(args.split(", "))
                 .filter(s -> !s.isEmpty())
                 .toArray(String[]::new);
     }
@@ -88,15 +86,15 @@ public class Java8FunctionalInterfaceNaming {
     }
 
     private static String tagObjOrPrimitives(String... types) {
-        return join(Java8FunctionalInterfaceNaming::tagObjOrPrimitive, types);
+        return mapJoin(Java8FunctionalInterfaceNaming::tagObjOrPrimitive, types);
     }
 
     private static String tagPrimitives(String... types) {
-        return join(Java8FunctionalInterfaceNaming::tagPrimitive, types);
+        return mapJoin(Java8FunctionalInterfaceNaming::tagPrimitive, types);
     }
 
-    private static String join(Function<String, String> fn, String... types) {
-        return Arrays.asList(types).stream()
+    private static String mapJoin(Function<String, String> fn, String... types) {
+        return Stream.of(types)
                 .map(fn)
                 .collect(Collectors.joining());
     }
@@ -153,16 +151,11 @@ public class Java8FunctionalInterfaceNaming {
     }
 
     private static boolean allEqual(String[] args, String returns) {
-        for (String arg : args) {
-            if (!arg.equals(returns)) {
-                return false;
-            }
-        }
-        return true;
+        return Stream.of(args).allMatch(returns::equals);
     }
 
     public Class<?>[] getParameterTypes() {
-        return Arrays.asList(args).stream()
+        return Stream.of(args)
                 .map(Java8FunctionalInterfaceNaming::stringToClass)
                 .toArray(Class<?>[]::new);
     }
