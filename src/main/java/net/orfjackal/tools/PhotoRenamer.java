@@ -25,19 +25,12 @@
 package net.orfjackal.tools;
 
 import com.drew.imaging.jpeg.JpegMetadataReader;
-import com.drew.imaging.jpeg.JpegProcessingException;
-import com.drew.metadata.Directory;
-import com.drew.metadata.Metadata;
-import com.drew.metadata.exif.ExifDirectory;
+import com.drew.metadata.*;
+import com.drew.metadata.exif.ExifSubIFDDirectory;
 
-import java.io.File;
-import java.io.FileFilter;
-import java.text.ParseException;
+import java.io.*;
 import java.text.SimpleDateFormat;
-import java.util.Arrays;
-import java.util.Calendar;
-import java.util.Comparator;
-import java.util.GregorianCalendar;
+import java.util.*;
 
 /**
  * Simple rename script for renaming photos taken with a digital camera.
@@ -85,13 +78,10 @@ public class PhotoRenamer {
         long result = 0;
         try {
             Metadata metadata = JpegMetadataReader.readMetadata(file);
-            Directory exifDirectory = metadata.getDirectory(ExifDirectory.class);
-            String datetime = exifDirectory.getString(ExifDirectory.TAG_DATETIME_ORIGINAL);
+            Directory exifDirectory = metadata.getDirectory(ExifSubIFDDirectory.class);
+            String datetime = exifDirectory.getString(ExifSubIFDDirectory.TAG_DATETIME_ORIGINAL);
             result = datetimeFormat.parse(datetime).getTime();
-        } catch (JpegProcessingException e) {
-            System.err.println(file);
-            e.printStackTrace();
-        } catch (ParseException e) {
+        } catch (Exception e) {
             System.err.println(file);
             e.printStackTrace();
         }
