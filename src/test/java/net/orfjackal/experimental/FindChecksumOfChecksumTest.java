@@ -1,14 +1,15 @@
 package net.orfjackal.experimental;
 
-import org.junit.*;
+import org.junit.Test;
 
 import static net.orfjackal.experimental.FindChecksumOfChecksum.*;
+import static org.junit.Assert.*;
 
 /**
  * @author Esko Luontola
  * @since 31.3.2010
  */
-public class FindChecksumOfChecksumTest extends Assert {
+public class FindChecksumOfChecksumTest {
 
     @Test
     public void big_endian_has_the_most_significant_byte_first() {

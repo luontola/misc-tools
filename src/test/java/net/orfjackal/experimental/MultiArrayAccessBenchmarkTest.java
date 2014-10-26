@@ -1,12 +1,14 @@
 package net.orfjackal.experimental;
 
-import org.junit.*;
+import org.junit.Test;
+
+import static org.junit.Assert.assertEquals;
 
 /**
  * @author Esko Luontola
  * @since 25.3.2010
  */
-public class MultiArrayAccessBenchmarkTest extends Assert {
+public class MultiArrayAccessBenchmarkTest {
 
     private static final int X_DIM = 10;
     private static final int Y_DIM = 20;
